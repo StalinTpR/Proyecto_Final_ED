@@ -41,11 +41,11 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setText("Inicio de Sesion");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(60, 40, 90, 20);
+        jLabel1.setBounds(120, 40, 90, 20);
 
         jLabel2.setText("Usuario");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(40, 120, 70, 16);
+        jLabel2.setBounds(30, 120, 70, 16);
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,11 +53,11 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jTextField1);
-        jTextField1.setBounds(150, 120, 120, 24);
+        jTextField1.setBounds(140, 120, 120, 22);
 
         jLabel3.setText("Contraseña:");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(30, 170, 90, 16);
+        jLabel3.setBounds(30, 190, 90, 16);
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,11 +65,11 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jTextField2);
-        jTextField2.setBounds(150, 170, 120, 24);
+        jTextField2.setBounds(140, 190, 120, 22);
 
         jButton1.setText("Iniciar");
         jPanel1.add(jButton1);
-        jButton1.setBounds(70, 260, 45, 24);
+        jButton1.setBounds(100, 230, 72, 22);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
