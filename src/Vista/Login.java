@@ -34,9 +34,7 @@ public class Login extends javax.swing.JFrame {
         tp = new TextPrompt("Contraseña", txtC);
 
         //Grupo de Botones
-        gp1.add(btnA);
-        gp1.add(btnM);
-        gp1.add(btnP);
+       
 
         //labels
        //jLabel1.setFont(f.fuente("Montserrat-Medium.ttf", ERROR, 14));
@@ -59,10 +57,6 @@ public class Login extends javax.swing.JFrame {
         txtUsuario = new javax.swing.JTextField();
         txtC = new javax.swing.JPasswordField();
         btnIniciar = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        btnA = new javax.swing.JRadioButton();
-        btnM = new javax.swing.JRadioButton();
-        btnP = new javax.swing.JRadioButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -128,67 +122,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 350, 40));
-
-        jPanel3.setBackground(new java.awt.Color(89, 92, 110));
-
-        btnA.setBackground(new java.awt.Color(89, 92, 110));
-        btnA.setForeground(new java.awt.Color(255, 255, 255));
-        btnA.setText("Administrador");
-        btnA.setBorder(null);
-        btnA.setFocusPainted(false);
-        btnA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/g16_1.png"))); // NOI18N
-        btnA.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBnPressed.png"))); // NOI18N
-        btnA.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBpressed.png"))); // NOI18N
-        btnA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAActionPerformed(evt);
-            }
-        });
-
-        btnM.setBackground(new java.awt.Color(89, 92, 110));
-        btnM.setForeground(new java.awt.Color(255, 255, 255));
-        btnM.setText("Medico");
-        btnM.setFocusPainted(false);
-        btnM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBnPressed.png"))); // NOI18N
-        btnM.setOpaque(false);
-        btnM.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBnPressed.png"))); // NOI18N
-        btnM.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBpressed.png"))); // NOI18N
-
-        btnP.setBackground(new java.awt.Color(89, 92, 110));
-        btnP.setForeground(new java.awt.Color(255, 255, 255));
-        btnP.setText("Paciente");
-        btnP.setFocusPainted(false);
-        btnP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBnPressed.png"))); // NOI18N
-        btnP.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBnPressed.png"))); // NOI18N
-        btnP.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/img/RBpressed.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnA)
-                .addGap(18, 18, 18)
-                .addComponent(btnM)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(btnP)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnA)
-                    .addComponent(btnP)
-                    .addComponent(btnM))
-                .addGap(29, 29, 29))
-        );
-
-        btnA.setOpaque(false);
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 400, 300, 30));
 
         jPanel5.setBackground(new java.awt.Color(89, 92, 110));
         jPanel5.setPreferredSize(new java.awt.Dimension(300, 3));
@@ -335,13 +268,6 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtCKeyPressed
 
-    private void btnAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAActionPerformed
-       /*
-        Icon iconrb = new ImageIcon("src/img/RBpressed.png");
-        btnA.setIcon(iconrb);
-        */
-    }//GEN-LAST:event_btnAActionPerformed
-
     private void txtCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCActionPerformed
@@ -382,11 +308,8 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton btnA;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnIniciar;
-    private javax.swing.JRadioButton btnM;
-    private javax.swing.JRadioButton btnP;
     private javax.swing.ButtonGroup gp1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -394,7 +317,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
