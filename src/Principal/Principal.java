@@ -5,6 +5,8 @@
  */
 package Principal;
 
+import Controlador.dao.DepartamentoDao;
+import Modelo.Personal.Departamento;
 import controlador.dao.RolDao;
 
 
@@ -20,7 +22,10 @@ public class Principal {
 
     public static void main(String[] args) {
         
-        RolDao s= new RolDao();
+        Departamento s = new Departamento();
+        DepartamentoDao se3 = new DepartamentoDao();
+        se3.setDep(s);
+        se3.guardar();
         
 
     }
