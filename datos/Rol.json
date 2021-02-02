@@ -1,1 +1,0 @@
-{"Listas.ListaSimple":{"cabecera":{"dato":{"@class":"Modelo.Rol","IdRol":3,"Nombre":"Paciente"},"sig":{"dato":{"@class":"Modelo.Rol","IdRol":2,"Nombre":"Doctor"},"sig":{"dato":{"@class":"Modelo.Rol","IdRol":1,"Nombre":"Administrador"}}}}}}

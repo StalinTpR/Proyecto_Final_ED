@@ -12,7 +12,7 @@ package Modelo.Personal;
 public class Departamento {
     private Long idDepartamento;
     private String NomDep;
-    private Especialidad[] esp;
+    
 
     public Long getIdDepartamento() {
         return idDepartamento;
@@ -30,12 +30,6 @@ public class Departamento {
         this.NomDep = NomDep;
     }
 
-    public Especialidad[] getEsp() {
-        return esp;
-    }
-
-    public void setEsp(Especialidad[] esp) {
-        this.esp = esp;
-    }
+   
     
 }

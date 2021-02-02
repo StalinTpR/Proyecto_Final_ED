@@ -9,11 +9,6 @@ import Controlador.dao.DepartamentoDao;
 import Modelo.Personal.Departamento;
 import controlador.dao.RolDao;
 
-
-
-
-
-
 /**
  *
  * @author Stalin Jimenez
@@ -21,12 +16,11 @@ import controlador.dao.RolDao;
 public class Principal {
 
     public static void main(String[] args) {
-        
+
         Departamento s = new Departamento();
         DepartamentoDao se3 = new DepartamentoDao();
         se3.setDep(s);
         se3.guardar();
-        
 
     }
 }
