@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package listas;
-
-
+package Controlador;
 
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
 public class Nodo {
     private Object dato;
@@ -42,5 +40,4 @@ public class Nodo {
     public void setSig(Nodo sig) {
         this.sig = sig;
     }
-    
 }

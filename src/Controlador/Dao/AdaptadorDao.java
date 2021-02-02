@@ -3,18 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.dao;
+package Controlador.Dao;
 
-import Listas.ListaSimple;
-import com.thoughtworks.xstream.XStream;
+import Controlador.ListaSimple;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.util.List;
 
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
 public class AdaptadorDao implements InterfazDao {
 
@@ -24,6 +22,18 @@ public class AdaptadorDao implements InterfazDao {
     public AdaptadorDao(Conexion conexion, Class clazz) {
         this.conexion = conexion;
         this.clazz = clazz;
+    }
+
+    @Override
+    public void guardar(Object o) throws Exception {
+         ListaSimple lista = listar();
+        lista.insertar(o);
+        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
+    }
+
+    @Override
+    public Boolean modificar(Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -38,21 +48,6 @@ public class AdaptadorDao implements InterfazDao {
             e.printStackTrace();
         }
         return lista;
-    }
-
-    @Override
-    public void guardar(Object o) throws Exception {
-
-        ListaSimple lista = listar();
-        lista.insertar(o);
-        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
-
-    }
-
-    @Override
-    public Boolean modificar(Object o) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return false;
     }
 
 }

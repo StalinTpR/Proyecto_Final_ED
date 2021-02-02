@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.dao;
+package Controlador.Dao;
 
-import Listas.ListaSimple;
-
-
-
+import Controlador.ListaSimple;
 
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
 public interface InterfazDao {
     public void guardar(Object o) throws Exception;
     public Boolean modificar(Object o);
-    public ListaSimple listar();    
+    public ListaSimple listar(); 
 }

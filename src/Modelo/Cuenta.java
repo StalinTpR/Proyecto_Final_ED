@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Modelo;
 
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
 public class Cuenta {
     private Long id;
@@ -64,5 +64,4 @@ public class Cuenta {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
-    
 }

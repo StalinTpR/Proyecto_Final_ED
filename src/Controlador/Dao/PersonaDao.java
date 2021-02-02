@@ -3,18 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.dao;
+package Controlador.Dao;
 
-
-import Listas.ListaSimple;
-import modelo.Persona;
+import Controlador.ListaSimple;
+import Modelo.Persona;
 
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
-public class PersonaDao extends AdaptadorDao {
-    
+public class PersonaDao extends AdaptadorDao{
     private Persona persona;
     
     public PersonaDao() {
@@ -46,11 +44,4 @@ public class PersonaDao extends AdaptadorDao {
         estudiantes.ordenar(tipo_ordenacion, atributo);
         return estudiantes;
     }
-    
-    /*public Persona obtenerId(Long id) {
-        ListaSimple personas = ordenar(listar(), ListaSimple.ORDENAR_ASCENDENTE, "id");
-        return (Persona)personas.busquedaBinaria(id.toString(), "id");
-    }*/
-    
-    
 }

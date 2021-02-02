@@ -1,22 +1,18 @@
-package Controlador;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+package Controlador;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
-public class Utiles {
-
+public class Utilies {
     public static int compareTo(Object o, Object o1, String atributoClase) {
         int i = 0;
         if (o instanceof Integer && o1 instanceof Integer) {
@@ -127,5 +123,4 @@ public class Utiles {
     public Boolean compararRigido(String uno, String dos) {
         return uno.equals(dos);
     }
-
 }

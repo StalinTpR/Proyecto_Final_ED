@@ -1,20 +1,16 @@
-package Listas;
-
-import Controlador.Utiles;
-import listas.Nodo;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Controlador;
+
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
 public class ListaSimple {
-
-    public Nodo cabecera;
+     public Nodo cabecera;
     public static final int ORDENAR_ASCENDENTE = -1;
     public static final int ORDENAR_DESCENDENTE = 1;
 
@@ -132,24 +128,24 @@ public class ListaSimple {
         }
     }
     //2020-12-12 ---String
-
+    
     public ListaSimple ordenar(int tipo_ordenacion, String atributo) {
         if (!estaVacio()) {
             for (int i = 0; i < tamano() - 1; i++) {
                 int k = i;
                 for (int j = i + 1; j < tamano(); j++) {
-                    if (Utiles.compareTo(obtenerPorPosicion(j), obtenerPorPosicion(k), atributo) == tipo_ordenacion) {
+                    if (Utilies.compareTo(obtenerPorPosicion(j), obtenerPorPosicion(k), atributo) == tipo_ordenacion) {
                         k = j;
-                    }
+                    }                    
                 }
-                Object aux = obtenerPorPosicion(i);
+                Object aux = obtenerPorPosicion(i);                
                 editar(i, obtenerPorPosicion(k));
-                editar(k, aux);
+                editar(k, aux);                
             }
         }
         return this;
     }
-
+    
     public Object busquedaBinaria(String dato, String atributo) {
         System.out.println("DATO " + dato + " ATRIBUTO " + atributo);
         int n = tamano();
@@ -158,9 +154,9 @@ public class ListaSimple {
             centro = (sup + inf) / 2;
             System.out.println("centro " + centro + " ss " + obtenerPorPosicion(centro) + " saa " + dato);
             //if ((String.valueOf(obtenerPorPosicion(centro))).equalsIgnoreCase(dato)) {
-            if (Utiles.comparar(dato, obtenerPorPosicion(centro), atributo)) {
+            if(Utilies.comparar(dato, obtenerPorPosicion(centro), atributo)) {
                 return obtenerPorPosicion(centro);
-            } else if (Utiles.compareTo(dato, obtenerPorPosicion(centro), atributo) < 0) {//else if (dato.compareTo(String.valueOf(obtenerPorPosicion(centro))) < 0) {
+            } else if (Utilies.compareTo(dato, obtenerPorPosicion(centro), atributo) < 0) {//else if (dato.compareTo(String.valueOf(obtenerPorPosicion(centro))) < 0) {
                 sup = centro - 1;
                 System.out.println(" sup " + sup);
             } else {
@@ -171,7 +167,6 @@ public class ListaSimple {
         }
         return null;
     }
-
     public ListaSimple ordenar(ListaSimple estudiantes, int tipo_ordenacion, String parametro) {
         estudiantes.ordenar(tipo_ordenacion, parametro);
         return estudiantes;

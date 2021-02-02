@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.dao;
+package Controlador.Dao;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
 /**
-// *
- * @author joe
+ *
+ * @author Stalin Jimenez
  */
 public class Conexion {
-    private final String REPO = "datos";
+    private final String REPO = "Datos";
     private XStream xtrStream; 
     public Conexion() {
         xtrStream = new XStream(new JettisonMappedXmlDriver());
@@ -27,6 +27,4 @@ public class Conexion {
     public XStream getXtrStream() {
         return xtrStream;
     }
-    
-    
 }

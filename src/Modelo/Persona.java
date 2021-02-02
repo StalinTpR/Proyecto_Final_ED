@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Modelo;
 
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
 public class Persona {
-
     private Long id;
     private String cedula;
     private String apellidos;
@@ -26,6 +25,8 @@ public class Persona {
     public void setId_rol(Long id_rol) {
         this.id_rol = id_rol;
     }
+    
+    
 
     public String getExternal_id() {
         return external_id;
@@ -34,6 +35,8 @@ public class Persona {
     public void setExternal_id(String external_id) {
         this.external_id = external_id;
     }
+    
+    
 
     public Long getId() {
         return id;
@@ -79,5 +82,4 @@ public class Persona {
     public String toString() {
         return apellidos + " " + nombres;
     }
-
 }

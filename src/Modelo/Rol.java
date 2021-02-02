@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Modelo;
 
 /**
  *
- * @author joe
+ * @author Stalin Jimenez
  */
 public class Rol {
     private Long id;
@@ -33,7 +33,4 @@ public class Rol {
     public String toString() {
         return nombre;
     }
-    
-    
-    
 }
