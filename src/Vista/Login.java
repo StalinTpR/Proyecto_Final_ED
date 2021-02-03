@@ -61,9 +61,11 @@ public class Login extends javax.swing.JFrame {
                 }
                 if (s.getRol().getNombre().equals("Doctor")) {
                     new VistaMedico().setVisible(true);
+                    this.dispose();
                 }
                 if (s.getRol().getNombre().equals("Paciente")) {
                     new VistaPaciente().setVisible(true);
+                    this.dispose();
                 }
 
             } else {
