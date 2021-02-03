@@ -5,20 +5,28 @@
  */
 package Vista;
 
+import Controlador.Servicio.CuentaServicio;
+import Controlador.Servicio.RolServicio;
 import Vista.Administrador.VistaAdministrador;
+import Vista.Medico.VistaMedico;
+import Vista.Paciente.VistaPaciente;
 import fonts.Fuentes;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author uwu
  */
 public class Login extends javax.swing.JFrame {
+
+    private RolServicio rs = new RolServicio();
+    private CuentaServicio cs = new CuentaServicio();
+    private Sesion s = new Sesion();
 
     /**
      * Creates new form Login
@@ -27,20 +35,45 @@ public class Login extends javax.swing.JFrame {
     int mousepY;
     TextPrompt tp;
     Fuentes f = new Fuentes();
+
     public Login() {
         initComponents();
+        rs.crearRoles();
         this.setLocationRelativeTo(null);
         tp = new TextPrompt("Usuario", txtUsuario);
         tp = new TextPrompt("Contraseña", txtC);
 
         //Grupo de Botones
-       
-
         //labels
-       //jLabel1.setFont(f.fuente("Montserrat-Medium.ttf", ERROR, 14));
-
+        //jLabel1.setFont(f.fuente("Montserrat-Medium.ttf", ERROR, 14));
     }
-   
+
+    private void inicioSesion() {
+        String usurio = txtUsuario.getText();
+        String clave = new String(txtC.getPassword());
+        s.setCuenta(cs.inicioSesion(usurio, clave));
+        if (s.getCuenta() != null) {
+            if (s.getCuenta().getEstado()) {
+                s.cargarDatos();
+                if (s.getRol().getNombre().equals("Administrador")) {
+                    new VistaAdministrador().setVisible(true);
+                    this.dispose();
+                }
+                if (s.getRol().getNombre().equals("Doctor")) {
+                    new VistaMedico().setVisible(true);
+                }
+                if (s.getRol().getNombre().equals("Paciente")) {
+                    new VistaPaciente().setVisible(true);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Cuenta no activa", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -239,9 +272,11 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        VistaAdministrador aaa = new VistaAdministrador();
-        aaa.setVisible(true);
-        this.dispose();
+        if (txtC.getPassword().length == 0 || txtUsuario.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            inicioSesion();
+        }
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
