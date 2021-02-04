@@ -5,7 +5,9 @@
  */
 package Main;
 
+import Controlador.Dao.DepartamentoDao;
 import Controlador.Dao.RolDao;
+import Modelo.Departamento;
 
 /**
  *
@@ -17,8 +19,12 @@ public class StalinJimenezMolina {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        RolDao s = new RolDao();
-        s.crearRoles();
+        DepartamentoDao s = new DepartamentoDao();
+        Departamento sta = new Departamento();
+        sta.setNombre("Hola");
+        s.setDepartamento(sta);
+        s.guardar();
+        s.setDepartamento(null);
     }
     
 }
