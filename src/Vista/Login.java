@@ -24,9 +24,9 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-    private RolServicio rs = new RolServicio();
-    private CuentaServicio cs = new CuentaServicio();
-    private Sesion s = new Sesion();
+    public static RolServicio rs = new RolServicio();
+    public static CuentaServicio cs = new CuentaServicio();
+    public static Sesion s = new Sesion();
 
     /**
      * Creates new form Login

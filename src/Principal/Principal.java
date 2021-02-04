@@ -12,8 +12,10 @@ import Vista.Login;
  * @author Stalin Jimenez
  */
 public class Principal {
-    public static void main(String[] args) {
-        Login l = new Login();
-        l.setVisible(true);
+    public static void main(String[] args) {        
+        Vista.Login ventana = new Vista.Login();
+        ventana.setVisible(true);
+        ventana.setResizable(true);
+        ventana.setLocationRelativeTo(null);
     }
 }

@@ -5,6 +5,8 @@
  */
 package Vista.Administrador;
 
+import Vista.Login;
+import Vista.Sesion;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -16,7 +18,7 @@ import java.awt.event.ActionListener;
  * @author uwu
  */
 public class VistaAdministrador extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form VistaAdministrador
      */
@@ -37,7 +39,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         PNavP.setBackground(color4);
         PNavC.setBackground(color5);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -578,7 +580,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JPanel PNavDoc;
     private javax.swing.JPanel PNavE;
     private javax.swing.JPanel PNavP;
-    private javax.swing.JPanel PanelD;
     private javax.swing.JButton btnC;
     private javax.swing.JButton btnD;
     private javax.swing.JButton btnDoc;
@@ -586,7 +587,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton btnP;
     private javax.swing.JPanel contenedor;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
