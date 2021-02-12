@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Controlador.Dao.RolDao;
 import Controlador.Servicio.CuentaServicio;
 import Controlador.Servicio.RolServicio;
 import Vista.Administrador.VistaAdministrador;
@@ -23,7 +24,7 @@ import javax.swing.JOptionPane;
  * @author uwu
  */
 public class Login extends javax.swing.JFrame {
-
+    public static RolDao rol = new RolDao();
     public static RolServicio rs = new RolServicio();
     public static CuentaServicio cs = new CuentaServicio();
     public static Sesion s = new Sesion();

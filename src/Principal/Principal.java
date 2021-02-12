@@ -5,6 +5,7 @@
  */
 package Principal;
 
+import Controlador.Dao.RecetaMedicaDao;
 import Vista.Login;
 
 /**
@@ -13,9 +14,7 @@ import Vista.Login;
  */
 public class Principal {
     public static void main(String[] args) {        
-        Vista.Login ventana = new Vista.Login();
-        ventana.setVisible(true);
-        ventana.setResizable(true);
-        ventana.setLocationRelativeTo(null);
+        
+        
     }
 }
