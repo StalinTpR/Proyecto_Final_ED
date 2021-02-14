@@ -12,7 +12,7 @@ package Modelo;
 public class Especialidad {
     private Long id;
     private String nombre;
-    private Long id_Dep;
+    
 
     public Long getId() {
         return id;
@@ -29,15 +29,6 @@ public class Especialidad {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public Long getId_Dep() {
-        return id_Dep;
-    }
-
-    public void setId_Dep(Long id_Dep) {
-        this.id_Dep = id_Dep;
-    }
-
     @Override
     public String toString() {
         return nombre;

@@ -38,7 +38,5 @@ public class Diagnostico {
     public void setIdRecetaMedica(RecetaMedica idRecetaMedica) {
         this.idRecetaMedica = idRecetaMedica;
     }
-
-   
-
+    
 }

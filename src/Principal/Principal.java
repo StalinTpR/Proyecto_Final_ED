@@ -14,7 +14,8 @@ import Vista.Login;
  */
 public class Principal {
     public static void main(String[] args) {        
-        
+        Login lol = new Login();
+        lol.setVisible(true);
         
     }
 }

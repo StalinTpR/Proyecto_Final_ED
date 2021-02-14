@@ -19,6 +19,7 @@ public class Persona {
     private String direccion;
     private Long id_rol;//Siempre va un objeto
     private HistoriaClinica historia;
+    private Especialidad espec;
 
     public Long getId_rol() {
         return id_rol;
@@ -84,6 +85,14 @@ public class Persona {
         this.historia = historia;
     }    
 
+    public Especialidad getEspec() {
+        return espec;
+    }
+
+    public void setEspec(Especialidad espec) {
+        this.espec = espec;
+    }
+    
     @Override
     public String toString() {
         return apellidos + " " + nombres;
