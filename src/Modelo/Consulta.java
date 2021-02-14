@@ -13,7 +13,7 @@ public class Consulta {
 
     private Long id;
     private Diagnostico dia;
-    private Consulta consulta;
+    private CitaMedica cita;
     private boolean estado;
 
     public Long getId() {
@@ -32,12 +32,22 @@ public class Consulta {
         this.dia = dia;
     }
 
-    public Consulta getConsulta() {
-        return consulta;
+    public CitaMedica getCita() {
+        return cita;
     }
 
-    public void setConsulta(Consulta consulta) {
-        this.consulta = consulta;
+    public void setCita(CitaMedica cita) {
+        this.cita = cita;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    
 
 }

@@ -10,7 +10,8 @@ package Controlador;
  * @author Stalin Jimenez
  */
 public class ListaSimple {
-     public Nodo cabecera;
+
+    public Nodo cabecera;
     public static final int ORDENAR_ASCENDENTE = -1;
     public static final int ORDENAR_DESCENDENTE = 1;
 
@@ -128,7 +129,7 @@ public class ListaSimple {
         }
     }
     //2020-12-12 ---String
-    
+
     public ListaSimple ordenar(int tipo_ordenacion, String atributo) {
         if (!estaVacio()) {
             for (int i = 0; i < tamano() - 1; i++) {
@@ -136,16 +137,16 @@ public class ListaSimple {
                 for (int j = i + 1; j < tamano(); j++) {
                     if (Utilies.compareTo(obtenerPorPosicion(j), obtenerPorPosicion(k), atributo) == tipo_ordenacion) {
                         k = j;
-                    }                    
+                    }
                 }
-                Object aux = obtenerPorPosicion(i);                
+                Object aux = obtenerPorPosicion(i);
                 editar(i, obtenerPorPosicion(k));
-                editar(k, aux);                
+                editar(k, aux);
             }
         }
         return this;
     }
-    
+
     public Object busquedaBinaria(String dato, String atributo) {
         System.out.println("DATO " + dato + " ATRIBUTO " + atributo);
         int n = tamano();
@@ -154,7 +155,7 @@ public class ListaSimple {
             centro = (sup + inf) / 2;
             System.out.println("centro " + centro + " ss " + obtenerPorPosicion(centro) + " saa " + dato);
             //if ((String.valueOf(obtenerPorPosicion(centro))).equalsIgnoreCase(dato)) {
-            if(Utilies.comparar(dato, obtenerPorPosicion(centro), atributo)) {
+            if (Utilies.comparar(dato, obtenerPorPosicion(centro), atributo)) {
                 return obtenerPorPosicion(centro);
             } else if (Utilies.compareTo(dato, obtenerPorPosicion(centro), atributo) < 0) {//else if (dato.compareTo(String.valueOf(obtenerPorPosicion(centro))) < 0) {
                 sup = centro - 1;
@@ -167,9 +168,35 @@ public class ListaSimple {
         }
         return null;
     }
+
     public ListaSimple ordenar(ListaSimple estudiantes, int tipo_ordenacion, String parametro) {
         estudiantes.ordenar(tipo_ordenacion, parametro);
         return estudiantes;
+    }
+
+    public void EliminarporPosicion(int pos) {
+        if (!estaVacio()) {
+            if (pos < 0) {
+                System.out.println("Debe ser una posicion mayor a cerp");
+
+            } else {
+                if (pos == 0) {
+                    cabecera = cabecera.getSig();
+                } else if (pos <= (tamano() - 1)) {
+                    Nodo aux = cabecera;
+                    for (int i = 0; i < pos - 1; i++) {
+                        aux = aux.getSig();
+                    }
+                    Nodo siguiente = aux.getSig();
+                    aux.setSig(siguiente.getSig());
+                } else {
+                    System.out.println("No se elimino");
+                }
+            }
+        } else {
+            System.out.println("Lista Vacia");
+        }
+
     }
 
 }

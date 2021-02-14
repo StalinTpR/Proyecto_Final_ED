@@ -13,6 +13,8 @@ import Controlador.ListaSimple;
  */
 public interface InterfazDao {
     public void guardar(Object o) throws Exception;
-    public Boolean modificar(Object o);
+    public Boolean modificar(Object o)throws Exception;
+    public void eliminar(int pos)throws Exception;
+    public Object Dato(int pss)throws Exception;
     public ListaSimple listar(); 
 }

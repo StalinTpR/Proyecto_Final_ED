@@ -47,8 +47,7 @@ public class RolDao extends AdaptadorDao{
         return estudiantes;
     }
 
-    public void crearRoles() {
-        PersonaDao pdao = new PersonaDao();
+    public void crearRoles() {        
         if (listar().tamano() == 0) {
             Rol admin = new Rol();
             admin.setNombre("Administrador");
@@ -64,30 +63,7 @@ public class RolDao extends AdaptadorDao{
             pac.setNombre("Paciente");
             setRol(pac);
             guardar();
-            setRol(null);            
-            if (pdao.listar().tamano() == 0) {
-                ListaSimple listado = listar().ordenar(ListaSimple.ORDENAR_ASCENDENTE, "nombre");
-                Object objeto = listado.busquedaBinaria("Administrador", "nombre");
-                long id_rol = (objeto != null) ? ((Rol) objeto).getId() : 1;
-                System.out.println("Se encontro " + objeto);
-                pdao.getPersona().setApellidos("Jimenez");
-                pdao.getPersona().setNombres("Stalin");
-                pdao.getPersona().setCedula("1106000217");
-                pdao.getPersona().setDireccion("Zamora");
-                pdao.getPersona().setExternal_id(UUID.randomUUID().toString());
-                //pdao.getPersona().setId(pdao.listar().tamano() + 1);
-                pdao.getPersona().setId_rol(id_rol);
-                pdao.guardar();                
-                CuentaDao cdao = new CuentaDao();
-                cdao.getCuenta().setClave("Grupal");
-                cdao.getCuenta().setEstado(Boolean.TRUE);
-                cdao.getCuenta().setExternal_id(UUID.randomUUID().toString());
-                cdao.getCuenta().setId_persona(pdao.getPersona().getId());
-                cdao.getCuenta().setUsuario("SCR");
-                cdao.guardar();
-                pdao.setPersona(null);
-                cdao.setCuenta(null);
-            }
+            setRol(null);                     
         }
 
     }

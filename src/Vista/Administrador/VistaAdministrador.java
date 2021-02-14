@@ -5,16 +5,22 @@
  */
 package Vista.Administrador;
 
+import Controlador.Dao.CuentaDao;
 import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
+import Modelo.Cuenta;
 import Modelo.Persona;
+import Modelo.Rol;
 import Vista.Login;
 import Vista.Sesion;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,8 +29,9 @@ import java.awt.event.ActionListener;
 public class VistaAdministrador extends javax.swing.JFrame {
 
     public static RolDao rol = new RolDao();
+    private CuentaDao cuenta = new CuentaDao();
     private PersonaDao per = new PersonaDao();
-    private ListaSimple s = rol.listar();
+    private ListaSimple s = rol.ordenar();
     private TablaPersona modelPersona = new TablaPersona();
 
     /**
@@ -49,10 +56,13 @@ public class VistaAdministrador extends javax.swing.JFrame {
         PNavC.setBackground(color5);
     }
 
-    public void cargar() {        
+    public void cargar() {
         cbxTipo.removeAllItems();
+        int cont = s.tamano()-1;
         for (int i = 0; i < s.tamano(); i++) {
-            cbxTipo.addItem(s.obtenerPorPosicion(i).toString());
+            Rol s1 = (Rol) rol.Dato(cont);
+            cbxTipo.addItem(s1.getNombre());
+            cont--;
         }
         modelPersona.setS(per.listar());
         jTable1.setModel(modelPersona);
@@ -105,6 +115,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         txtUsuario = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtClave = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         panelE = new javax.swing.JPanel();
@@ -403,8 +414,18 @@ public class VistaAdministrador extends javax.swing.JFrame {
         });
 
         jButton2.setText("Modificar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxTipo.addActionListener(new java.awt.event.ActionListener() {
@@ -425,41 +446,47 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel9.setText("Clave:");
 
+        jButton4.setText("Seleccionar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7))))
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre)
-                            .addComponent(txtApellido)
-                            .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(txtDireccion)
-                            .addComponent(txtEspecialidad)
-                            .addComponent(txtUsuario)
-                            .addComponent(txtClave))
-                        .addGap(82, 82, 82)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1))))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre)
+                    .addComponent(txtApellido)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                    .addComponent(txtDireccion)
+                    .addComponent(txtEspecialidad)
+                    .addComponent(txtUsuario)
+                    .addComponent(txtClave))
+                .addGap(82, 82, 82)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addContainerGap(131, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -492,19 +519,24 @@ public class VistaAdministrador extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(18, 18, 18)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jButton4)))
+                .addGap(68, 68, 68)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -551,7 +583,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         panelE.setLayout(panelELayout);
         panelELayout.setHorizontalGroup(
             panelELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1882, Short.MAX_VALUE)
+            .addGap(0, 1897, Short.MAX_VALUE)
         );
         panelELayout.setVerticalGroup(
             panelELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,7 +597,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         panelDoc.setLayout(panelDocLayout);
         panelDocLayout.setHorizontalGroup(
             panelDocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1882, Short.MAX_VALUE)
+            .addGap(0, 1897, Short.MAX_VALUE)
         );
         panelDocLayout.setVerticalGroup(
             panelDocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -579,7 +611,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         panelP.setLayout(panelPLayout);
         panelPLayout.setHorizontalGroup(
             panelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1882, Short.MAX_VALUE)
+            .addGap(0, 1897, Short.MAX_VALUE)
         );
         panelPLayout.setVerticalGroup(
             panelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -593,7 +625,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         panelC.setLayout(panelCLayout);
         panelCLayout.setHorizontalGroup(
             panelCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1882, Short.MAX_VALUE)
+            .addGap(0, 1897, Short.MAX_VALUE)
         );
         panelCLayout.setVerticalGroup(
             panelCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -723,15 +755,26 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (txtNombre.getText().length() > 0 && txtCedula.getText().length() > 0 && txtDireccion.getText().length()>0 && txtApellido.getText().length() > 0) {
+        if (txtNombre.getText().length() > 0 && txtCedula.getText().length() > 0 && txtDireccion.getText().length() > 0 && txtApellido.getText().length() > 0) {
             Persona people = new Persona();
             people.setNombres(txtNombre.getText());
             people.setDireccion(txtDireccion.getText());
             people.setApellidos(txtApellido.getText());
             people.setCedula(txtCedula.getText());
-            people.setId_rol(Long.parseLong(String.valueOf(cbxTipo.getSelectedIndex())));
+            Rol roles = (Rol) s.obtenerPorPosicion(cbxTipo.getSelectedIndex());
+            people.setId_rol(roles.getId());
+            people.setExternal_id(UUID.randomUUID().toString());
             per.setPersona(people);
             per.guardar();
+            Cuenta ncuenta = new Cuenta();
+            ncuenta.setUsuario(txtUsuario.getText());
+            ncuenta.setClave(txtClave.getText());
+            ncuenta.setEstado(true);
+            ncuenta.setId_persona(per.getPersona().getId());
+            ncuenta.setExternal_id(UUID.randomUUID().toString());
+            cuenta.setCuenta(ncuenta);
+            cuenta.guardar();
+            cuenta.setCuenta(null);
             per.setPersona(null);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -739,6 +782,34 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxTipoActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            per.eliminar(jTable1.getSelectedRow());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            Persona s = (Persona) per.Dato(jTable1.getSelectedRow());
+            Cuenta c = (Cuenta) cuenta.Dato(jTable1.getSelectedRow());
+            txtNombre.setText(s.getNombres());
+            txtApellido.setText(s.getApellidos());
+            txtCedula.setText(s.getCedula());
+            txtDireccion.setText(s.getDireccion());
+            cbxTipo.setSelectedIndex(Integer.parseInt(String.valueOf(s.getId_rol())));
+            txtUsuario.setText(c.getUsuario());
+            txtClave.setText(c.getClave());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -792,6 +863,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

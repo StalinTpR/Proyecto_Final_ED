@@ -11,16 +11,7 @@ package Modelo;
  */
 public class HistoriaClinica {
 
-    private long idPaciente;
     private Consulta[] s;
-
-    public long getId() {
-        return idPaciente;
-    }
-
-    public void setId(long id) {
-        this.idPaciente = id;
-    }
 
     public Consulta[] getS() {
         return s;

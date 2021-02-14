@@ -1,1 +1,1 @@
-{"Controlador.ListaSimple":{"cabecera":{"dato":{"@class":"Modelo.Cuenta","id":1,"usuario":"SCR","clave":"Grupal","external_id":"fb6811b5-53c9-4449-a46d-b8f9c0316395","id_persona":1,"estado":true}}}}
+{"Controlador.ListaSimple":{"cabecera":{"dato":{"@class":"Modelo.Cuenta","id":1,"usuario":"Grupal","clave":123,"external_id":"32002ede-6b5f-4975-aeac-dc96292e980a","id_persona":1,"estado":true}}}}

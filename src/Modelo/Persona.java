@@ -10,6 +10,7 @@ package Modelo;
  * @author Stalin Jimenez
  */
 public class Persona {
+
     private Long id;
     private String cedula;
     private String apellidos;
@@ -17,6 +18,7 @@ public class Persona {
     private String external_id;
     private String direccion;
     private Long id_rol;//Siempre va un objeto
+    private HistoriaClinica historia;
 
     public Long getId_rol() {
         return id_rol;
@@ -25,8 +27,6 @@ public class Persona {
     public void setId_rol(Long id_rol) {
         this.id_rol = id_rol;
     }
-    
-    
 
     public String getExternal_id() {
         return external_id;
@@ -35,8 +35,6 @@ public class Persona {
     public void setExternal_id(String external_id) {
         this.external_id = external_id;
     }
-    
-    
 
     public Long getId() {
         return id;
@@ -77,6 +75,14 @@ public class Persona {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    public HistoriaClinica getHistoria() {
+        return historia;
+    }
+
+    public void setHistoria(HistoriaClinica historia) {
+        this.historia = historia;
+    }    
 
     @Override
     public String toString() {

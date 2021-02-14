@@ -26,13 +26,13 @@ public class AdaptadorDao implements InterfazDao {
 
     @Override
     public void guardar(Object o) throws Exception {
-         ListaSimple lista = listar();
+        ListaSimple lista = listar();
         lista.insertar(o);
         conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
     }
 
     @Override
-    public Boolean modificar(Object o) {
+    public Boolean modificar(Object o) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -50,4 +50,21 @@ public class AdaptadorDao implements InterfazDao {
         return lista;
     }
 
+    @Override
+    public void eliminar(int pos) throws Exception {
+        ListaSimple lista = listar();
+        lista.EliminarporPosicion(pos);
+        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
+    }
+
+    @Override
+    public Object Dato(int pss){
+        ListaSimple lista = listar();
+        return lista.obtenerPorPosicion(pss);        
+    }   
+    public ListaSimple ordenar(){
+        ListaSimple lista = listar();
+        ListaSimple ordenada = new ListaSimple();
+        return ordenada = lista.ordenar(lista.ORDENAR_ASCENDENTE, "id");
+    }
 }
