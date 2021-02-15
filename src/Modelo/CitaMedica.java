@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class CitaMedica {
     private long idCita;
+    private String TipoCita;
     private Persona Paciente;
     private Persona Doc;
     private Date fecha;
@@ -47,6 +48,14 @@ public class CitaMedica {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public String getTipoCita() {
+        return TipoCita;
+    }
+
+    public void setTipoCita(String TipoCita) {
+        this.TipoCita = TipoCita;
     }
     
     

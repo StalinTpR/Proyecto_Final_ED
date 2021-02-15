@@ -6,10 +6,13 @@
 package Vista.Administrador;
 
 import Controlador.Dao.CuentaDao;
+import Controlador.Dao.DepartamentoDao;
 import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
 import Modelo.Cuenta;
+import Modelo.Departamento;
+import Modelo.Especialidad;
 import Modelo.Persona;
 import Modelo.Rol;
 import Vista.Login;
@@ -33,6 +36,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private PersonaDao per = new PersonaDao();
     private ListaSimple s = rol.ordenar();
     private TablaPersona modelPersona = new TablaPersona();
+    private DepartamentoDao dep = new DepartamentoDao();
+    private TablaEspecialidad modelEspecialidad = new TablaEspecialidad();
 
     /**
      * Creates new form VistaAdministrador
@@ -45,6 +50,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     public VistaAdministrador() {
         initComponents();
         cargar();
+        CargarVDep();        
         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
@@ -67,6 +73,46 @@ public class VistaAdministrador extends javax.swing.JFrame {
         modelPersona.setS(per.listar());
         jTable1.setModel(modelPersona);
         jTable1.updateUI();
+        
+        
+    }
+    public void CargarVDep(){
+        jList1.removeAll();
+        ListaSimple listaDep = dep.listar();
+        String[] NombresDep = new String[listaDep.tamano()];
+        for (int i = 0; i < listaDep.tamano(); i++) {
+            Departamento Deplis = (Departamento) listaDep.obtenerPorPosicion(i);
+            NombresDep[i]=Deplis.getNombre();            
+        }
+        jList1.setListData(NombresDep);
+    }
+    
+    public void CargarVEsp(){
+        cbxDepEs.removeAllItems();
+        ListaSimple listaDep = dep.listar();
+        for (int i = 0; i < listaDep.tamano(); i++) {
+            Departamento departa = (Departamento) listaDep.obtenerPorPosicion(i);
+            cbxDepEs.addItem(departa.getNombre());
+        }
+        Departamento dep = (Departamento) listaDep.obtenerPorPosicion(cbxDepEs.getSelectedIndex());
+        modelEspecialidad.setEsp(dep.getEsp());
+        jTableEspecialidad.setModel(modelEspecialidad);
+        jTableEspecialidad.updateUI();
+        
+    }
+    
+    public void CargarVCita(){
+        cbxDepCita.removeAllItems();
+        cbxEspCita.removeAllItems();
+        ListaSimple listaDep = dep.listar();
+        for (int i = 0; i < listaDep.tamano(); i++) {
+            Departamento departa = (Departamento) listaDep.obtenerPorPosicion(i);
+            cbxDepCita.addItem(departa.getNombre());            
+        }
+        Departamento depEsp = (Departamento) listaDep.obtenerPorPosicion(cbxDepCita.getSelectedIndex());
+        for (int i = 0; i < depEsp.getEsp().length; i++) {
+            cbxEspCita.addItem(depEsp.getEsp()[i].getNombre());
+        }
     }
 
     /**
@@ -96,15 +142,15 @@ public class VistaAdministrador extends javax.swing.JFrame {
         panelE = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        txtNombre3 = new javax.swing.JTextField();
+        txtEspecialidadES = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        cbxTipo2 = new javax.swing.JComboBox<>();
+        btnModificarEsp = new javax.swing.JButton();
+        btnEliminarEsp = new javax.swing.JButton();
+        cbxDepEs = new javax.swing.JComboBox<>();
         jLabel24 = new javax.swing.JLabel();
-        jButton16 = new javax.swing.JButton();
+        btnSelecEsp = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTableEspecialidad = new javax.swing.JTable();
         panelUsr = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -135,15 +181,15 @@ public class VistaAdministrador extends javax.swing.JFrame {
         panelC = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        DateCita = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
-        CBoxDep = new javax.swing.JComboBox<>();
+        cbxDepCita = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         CBoxMed = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNombreCita = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cbxEspCita = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         CedBusqueda = new javax.swing.JTextField();
@@ -168,7 +214,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jButton18 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtDep = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -433,37 +479,37 @@ public class VistaAdministrador extends javax.swing.JFrame {
             }
         });
 
-        jButton14.setText("Modificar");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
+        btnModificarEsp.setText("Modificar");
+        btnModificarEsp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
+                btnModificarEspActionPerformed(evt);
             }
         });
 
-        jButton15.setText("Eliminar");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarEsp.setText("Eliminar");
+        btnEliminarEsp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
+                btnEliminarEspActionPerformed(evt);
             }
         });
 
-        cbxTipo2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxTipo2.addActionListener(new java.awt.event.ActionListener() {
+        cbxDepEs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxDepEs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxTipo2ActionPerformed(evt);
+                cbxDepEsActionPerformed(evt);
             }
         });
 
         jLabel24.setText("Departamento:");
 
-        jButton16.setText("Seleccionar");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
+        btnSelecEsp.setText("Seleccionar");
+        btnSelecEsp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
+                btnSelecEspActionPerformed(evt);
             }
         });
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTableEspecialidad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -474,7 +520,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(jTableEspecialidad);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -486,12 +532,12 @@ public class VistaAdministrador extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jButton13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(jButton14)
+                        .addComponent(btnModificarEsp)
                         .addGap(106, 106, 106))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton15)
+                        .addComponent(btnEliminarEsp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton16)
+                        .addComponent(btnSelecEsp)
                         .addGap(94, 94, 94))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,8 +545,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
                             .addComponent(jLabel24))
                         .addGap(23, 23, 23)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbxTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cbxDepEs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEspecialidadES, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
@@ -510,23 +556,23 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(cbxTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxDepEs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(txtNombre3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEspecialidadES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton13)
-                    .addComponent(jButton14))
+                    .addComponent(btnModificarEsp))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton15)
-                    .addComponent(jButton16))
+                    .addComponent(btnEliminarEsp)
+                    .addComponent(btnSelecEsp))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 184, Short.MAX_VALUE))
+                .addGap(0, 220, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelELayout = new javax.swing.GroupLayout(panelE);
@@ -751,7 +797,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
             panelUsrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelUsrLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 100, Short.MAX_VALUE))
+                .addGap(0, 125, Short.MAX_VALUE))
         );
 
         contenedor.add(panelUsr, "panelDoc");
@@ -763,7 +809,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel8.setText("Departamento:");
 
-        CBoxDep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxDepCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel9.setText("Medico de la consulta:");
 
@@ -771,11 +817,11 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel14.setText("Nombre de la cita:");
 
-        jTextField1.setText("jTextField1");
+        txtNombreCita.setText("jTextField1");
 
         jLabel20.setText("Especialidad:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxEspCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -789,7 +835,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNombreCita, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -798,8 +844,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
                                     .addComponent(jLabel20))
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(cbxEspCita, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DateCita, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
@@ -809,7 +855,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(37, 37, 37)
-                                .addComponent(CBoxDep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(cbxDepCita, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(325, 325, 325)))
                 .addGap(140, 140, 140))
         );
@@ -819,14 +865,14 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
-                        .addComponent(CBoxDep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxDepCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DateCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -836,7 +882,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                         .addGap(26, 26, 26))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbxEspCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -1066,8 +1112,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel18.setText("Nombre del departamento:");
 
-        jTextField2.setText("jTextField2");
-
         jButton3.setText("Añadir Departamento");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1083,7 +1127,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel18)
-                    .addComponent(jTextField2)
+                    .addComponent(txtDep)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
@@ -1093,7 +1137,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -1124,7 +1168,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                         .addGroup(panelDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
 
         contenedor.add(panelD, "panelD");
@@ -1220,6 +1264,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     private void btnEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEActionPerformed
         cardLayout.show(contenedor, "panelE");
+        CargarVEsp();
     }//GEN-LAST:event_btnEActionPerformed
 
     private void btnDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocActionPerformed
@@ -1228,6 +1273,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
         cardLayout.show(contenedor, "panelC");
+        CargarVCita();
     }//GEN-LAST:event_btnCActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1271,24 +1317,55 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
+        Departamento departa = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
+        Especialidad especialidad = new Especialidad();   
+        System.out.println(departa.getEsp().length);
+        if (departa.getEsp().length==0) {
+            especialidad.setId(1);
+            especialidad.setNombre(txtEspecialidadES.getText());
+        }else{
+            especialidad.setId(departa.getEsp().length+1);
+            especialidad.setNombre(txtEspecialidadES.getText());
+        }
+        Especialidad[] esp = departa.getEsp();
+        Especialidad[] tem = new Especialidad[departa.getEsp().length+1];
+        int cont = 0;
+        for (int i = 0; i < tem.length; i++) {            
+            if (cont==i && i+1<tem.length) {
+                if (esp.length==0) {
+                    tem[i]=especialidad;
+                    break;
+                }
+                tem[i]=esp[i];
+                cont++;
+            }
+            else{
+                tem[i]=especialidad;
+            }
+        } 
+        departa.setEsp(tem);
+        try {
+            dep.modificar(departa,cbxDepEs.getSelectedIndex());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+    private void btnModificarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEspActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton14ActionPerformed
+    }//GEN-LAST:event_btnModificarEspActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
+    private void btnEliminarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEspActionPerformed
+        
+    }//GEN-LAST:event_btnEliminarEspActionPerformed
 
-    private void cbxTipo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipo2ActionPerformed
+    private void cbxDepEsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDepEsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbxTipo2ActionPerformed
+    }//GEN-LAST:event_cbxDepEsActionPerformed
 
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+    private void btnSelecEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecEspActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton16ActionPerformed
+    }//GEN-LAST:event_btnSelecEspActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -1303,11 +1380,21 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        Departamento departamento =  new Departamento();
+        departamento.setNombre(txtDep.getText());
+        departamento.setEsp(new Especialidad[0]);
+        dep.setDepartamento(departamento);
+        dep.guardar();
+        dep.setDepartamento(null);
+        CargarVDep();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // TODO add your handling code here:
+        try {
+            dep.eliminar(jList1.getSelectedIndex());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     /**
@@ -1346,11 +1433,11 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> CBoxDep;
     private javax.swing.JComboBox<String> CBoxMed;
     private javax.swing.JTextField CedBusqueda;
     private javax.swing.JComboBox<String> ComboBoxDep;
     private javax.swing.JComboBox<String> ComboBoxEsp;
+    private com.toedter.calendar.JDateChooser DateCita;
     private javax.swing.JPanel PNav;
     private javax.swing.JPanel PNavC;
     private javax.swing.JPanel PNavD;
@@ -1364,17 +1451,19 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton btnD;
     private javax.swing.JButton btnDoc;
     private javax.swing.JButton btnE;
+    private javax.swing.JButton btnEliminarEsp;
+    private javax.swing.JButton btnModificarEsp;
+    private javax.swing.JButton btnSelecEsp;
+    private javax.swing.JComboBox<String> cbxDepCita;
+    private javax.swing.JComboBox<String> cbxDepEs;
+    private javax.swing.JComboBox<String> cbxEspCita;
     private javax.swing.JComboBox<String> cbxTipo;
-    private javax.swing.JComboBox<String> cbxTipo2;
     private javax.swing.JPanel contenedor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
@@ -1385,8 +1474,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1422,9 +1509,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable jTableEspecialidad;
     private javax.swing.JPanel panelC;
     private javax.swing.JPanel panelD;
     private javax.swing.JPanel panelE;
@@ -1432,11 +1517,13 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JTextField txtApellido1;
     private javax.swing.JTextField txtCedula1;
     private javax.swing.JTextField txtClave1;
+    private javax.swing.JTextField txtDep;
     private javax.swing.JLabel txtDepartamento;
     private javax.swing.JTextField txtDireccion1;
     private javax.swing.JLabel txtEspecialidad;
+    private javax.swing.JTextField txtEspecialidadES;
     private javax.swing.JTextField txtNombre1;
-    private javax.swing.JTextField txtNombre3;
+    private javax.swing.JTextField txtNombreCita;
     private javax.swing.JTextField txtUsuario1;
     // End of variables declaration//GEN-END:variables
 

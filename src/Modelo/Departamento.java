@@ -13,6 +13,7 @@ public class Departamento {
 
     private Long id;
     private String nombre;
+    private Especialidad[] Esp;
 
     public Long getId() {
         return id;
@@ -29,6 +30,15 @@ public class Departamento {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public Especialidad[] getEsp() {
+        return Esp;
+    }
+
+    public void setEsp(Especialidad[] Esp) {
+        this.Esp = Esp;
+    }
+    
 
     @Override
     public String toString() {

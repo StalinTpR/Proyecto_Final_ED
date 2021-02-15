@@ -415,13 +415,13 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jButton13" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace pref="18" max="32767" attributes="0"/>
-                                      <Component id="jButton14" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnModificarEsp" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jButton15" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnEliminarEsp" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jButton16" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnSelecEsp" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -431,8 +431,8 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="cbxTipo2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtNombre3" min="-2" pref="151" max="-2" attributes="0"/>
+                                          <Component id="cbxDepEs" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtEspecialidadES" min="-2" pref="151" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -447,28 +447,28 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbxTipo2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbxDepEs" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtNombre3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtEspecialidadES" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jButton13" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton14" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnModificarEsp" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton15" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton16" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnEliminarEsp" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnSelecEsp" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jScrollPane3" min="-2" pref="446" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="184" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="220" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -479,7 +479,7 @@
                         <Property name="text" type="java.lang.String" value="Nom. Especialidad:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtNombre3">
+                    <Component class="javax.swing.JTextField" name="txtEspecialidadES">
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton13">
                       <Properties>
@@ -489,23 +489,23 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton13ActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton14">
+                    <Component class="javax.swing.JButton" name="btnModificarEsp">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Modificar"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton14ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarEspActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton15">
+                    <Component class="javax.swing.JButton" name="btnEliminarEsp">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Eliminar"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton15ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarEspActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="cbxTipo2">
+                    <Component class="javax.swing.JComboBox" name="cbxDepEs">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="4">
@@ -517,7 +517,7 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxTipo2ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxDepEsActionPerformed"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -528,12 +528,12 @@
                         <Property name="text" type="java.lang.String" value="Departamento:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton16">
+                    <Component class="javax.swing.JButton" name="btnSelecEsp">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Seleccionar"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton16ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelecEspActionPerformed"/>
                       </Events>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -543,7 +543,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTable" name="jTable3">
+                        <Component class="javax.swing.JTable" name="jTableEspecialidad">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="4" rowCount="4">
@@ -589,7 +589,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="125" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -975,7 +975,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jTextField1" min="-2" pref="537" max="-2" attributes="0"/>
+                                              <Component id="txtNombreCita" min="-2" pref="537" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
@@ -986,8 +986,8 @@
                                               </Group>
                                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jComboBox3" min="-2" pref="159" max="-2" attributes="0"/>
-                                                  <Component id="jDateChooser2" min="-2" pref="159" max="-2" attributes="0"/>
+                                                  <Component id="cbxEspCita" min="-2" pref="159" max="-2" attributes="0"/>
+                                                  <Component id="DateCita" min="-2" pref="159" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -1002,7 +1002,7 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                              <Component id="CBoxDep" max="32767" attributes="0"/>
+                                              <Component id="cbxDepCita" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="325" max="-2" attributes="0"/>
@@ -1018,16 +1018,16 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtNombreCita" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="CBoxDep" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbxDepCita" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel2" alignment="3" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="DateCita" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -1040,7 +1040,7 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jComboBox3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbxEspCita" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel20" alignment="3" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
@@ -1056,14 +1056,14 @@
                         <Property name="text" type="java.lang.String" value="Fecha de la consulta:"/>
                       </Properties>
                     </Component>
-                    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+                    <Component class="com.toedter.calendar.JDateChooser" name="DateCita">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel8">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Departamento:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="CBoxDep">
+                    <Component class="javax.swing.JComboBox" name="cbxDepCita">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="4">
@@ -1103,7 +1103,7 @@
                         <Property name="text" type="java.lang.String" value="Nombre de la cita:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField1">
+                    <Component class="javax.swing.JTextField" name="txtNombreCita">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="jTextField1"/>
                       </Properties>
@@ -1113,7 +1113,7 @@
                         <Property name="text" type="java.lang.String" value="Especialidad:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jComboBox3">
+                    <Component class="javax.swing.JComboBox" name="cbxEspCita">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="4">
@@ -1308,7 +1308,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace pref="201" max="32767" attributes="0"/>
+                          <EmptySpace pref="236" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1488,7 +1488,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtDep" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButton3" alignment="0" pref="193" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace pref="106" max="32767" attributes="0"/>
@@ -1501,7 +1501,7 @@
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtDep" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jButton3" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace pref="31" max="32767" attributes="0"/>
@@ -1515,10 +1515,7 @@
                         <Property name="text" type="java.lang.String" value="Nombre del departamento:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField2">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField2"/>
-                      </Properties>
+                    <Component class="javax.swing.JTextField" name="txtDep">
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton3">
                       <Properties>

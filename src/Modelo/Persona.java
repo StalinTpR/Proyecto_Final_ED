@@ -19,6 +19,7 @@ public class Persona {
     private String direccion;
     private Long id_rol;//Siempre va un objeto
     private HistoriaClinica historia;
+    private Especialidad e;
 
     public Long getId_rol() {
         return id_rol;
@@ -82,7 +83,15 @@ public class Persona {
 
     public void setHistoria(HistoriaClinica historia) {
         this.historia = historia;
-    }    
+    }
+
+    public Especialidad getE() {
+        return e;
+    }
+
+    public void setE(Especialidad e) {
+        this.e = e;
+    }
 
     @Override
     public String toString() {

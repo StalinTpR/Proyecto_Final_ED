@@ -1,1 +1,1 @@
-{"Controlador.ListaSimple":{"cabecera":{"dato":{"@class":"Modelo.Departamento","id":2,"nombre":"Hola"},"sig":{"dato":{"@class":"Modelo.Departamento","id":1,"nombre":"Hola"}}}}}
+{"Controlador.ListaSimple":{"cabecera":{"dato":{"@class":"Modelo.Departamento","id":1,"nombre":"Cirugia","Esp":[{"Modelo.Especialidad":[{"id":1,"nombre":"lol"},{"id":2,"nombre":"lolj"},{"id":3,"nombre":"hh"}]}]}}}}
