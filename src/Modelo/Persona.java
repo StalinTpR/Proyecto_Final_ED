@@ -20,6 +20,7 @@ public class Persona {
     private Long id_rol;//Siempre va un objeto
     private HistoriaClinica historia;
     private Especialidad e;
+    private CitaMedica[] citas;
 
     public Long getId_rol() {
         return id_rol;
@@ -92,6 +93,14 @@ public class Persona {
     public void setE(Especialidad e) {
         this.e = e;
     }
+
+    public CitaMedica[] getCitas() {
+        return citas;
+    }
+
+    public void setCitas(CitaMedica[] citas) {
+        this.citas = citas;
+    }    
 
     @Override
     public String toString() {

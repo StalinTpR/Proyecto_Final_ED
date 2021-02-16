@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Stalin Jimenez
  */
 public class CitaMedica {
-    private long idCita;
+    
     private String TipoCita;
     private Persona Paciente;
     private Persona Doc;
@@ -27,9 +27,6 @@ public class CitaMedica {
         this.estado = estado;
     }
 
-    public long getIdCita() {
-        return idCita;
-    }
 
     public Persona getPaciente() {
         return Paciente;
@@ -43,9 +40,7 @@ public class CitaMedica {
         return fecha;
     }
 
-    public void setIdCita(long idCita) {
-        this.idCita = idCita;
-    }
+
 
     public void setPaciente(Persona Paciente) {
         this.Paciente = Paciente;

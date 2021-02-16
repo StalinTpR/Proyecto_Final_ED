@@ -11,6 +11,7 @@ import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
 import Controlador.Servicio.PersonaServicio;
+import Modelo.CitaMedica;
 import Modelo.Cuenta;
 import Modelo.Departamento;
 import Modelo.Especialidad;
@@ -73,14 +74,14 @@ public class VistaAdministrador extends javax.swing.JFrame {
             cbxTipo.addItem(s1.getNombre());
             cont--;
         }
-        CargarCbxDep(ComboBoxDep,ComboBoxEsp);
+        CargarCbxDep(ComboBoxDep, ComboBoxEsp);
         modelPersona.setS(per.listar());
         jTable1.setModel(modelPersona);
         jTable1.updateUI();
 
     }
 
-    public void CargarCbxDep(JComboBox cbxa,JComboBox cbxb) {
+    public void CargarCbxDep(JComboBox cbxa, JComboBox cbxb) {
         cbxa.removeAllItems();
         cbxb.removeAllItems();
         ListaSimple listaDep = dep.listar();
@@ -118,9 +119,65 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jTableEspecialidad.updateUI();
 
     }
+    public Persona buscarPaciente(){
+        ListaSimple lista = per.listar();
+        return (Persona) lista.obtenerPorPosicion(lista.buscarindice(PerEnc));       
+    }
 
-    public void CargarVCita() {        
-        CargarCbxDep(cbxDepCita, cbxEspCita);          
+    public void CargarVCita() {
+        CargarCbxDep(cbxDepCita, cbxEspCita);
+    }
+    public Persona SacarDoctor(int pos){
+    ListaSimple personas = per.listar();
+    Persona doctor = new Persona();
+        int cont = 0;
+        int cont1 = 0;
+        for (int i = 0; i < personas.tamano(); i++) {
+            Persona persona = (Persona) personas.obtenerPorPosicion(i);
+            if (persona.getId_rol() == 2 && persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
+                cont++;
+            }
+        }
+        Persona[] listaPersonas = new Persona[cont];
+        for (int i = 0; i < personas.tamano(); i++) {
+            Persona persona = (Persona) personas.obtenerPorPosicion(i);
+            if (persona.getId_rol() == 2 && persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
+                listaPersonas[cont1] = persona;
+                cont1++;
+            }
+        }
+        return doctor=listaPersonas[pos];     
+    }
+    public void ModificarPersonasCitas(Object c){
+        CitaMedica nuevacita = new CitaMedica();
+        nuevacita.setDoc(SacarDoctor(CBoxMed.getSelectedIndex()));
+        nuevacita.setPaciente(PerEnc);
+        nuevacita.setFecha(DateCita.getDate());
+        nuevacita.setTipoCita(txtNombreCita.getText());
+        nuevacita.setEstado(false);
+        ListaSimple listaPersonas = per.listar();
+        Persona doctor = (Persona) c;        
+        CitaMedica[] cita = doctor.getCitas();
+        CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
+        int cont = 0;
+        for (int i = 0; i < temCitas.length; i++) {
+            if (cont == i && i + 1 < temCitas.length) {
+                if (cita.length == 0) {
+                    temCitas[i] = nuevacita;
+                    break;
+                }
+                temCitas[i] = cita[i];
+                cont++;
+            } else {
+                temCitas[i] = nuevacita;
+            }
+        }
+        doctor.setCitas(temCitas);
+        try {
+            per.modificar(s, listaPersonas.buscarindice(doctor));            
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -1291,12 +1348,16 @@ public class VistaAdministrador extends javax.swing.JFrame {
             people.setCedula(txtCedula.getText());
             Rol roles = (Rol) s.obtenerPorPosicion(cbxTipo.getSelectedIndex());
             people.setId_rol(roles.getId());
-            people.setExternal_id(UUID.randomUUID().toString());  
+            people.setExternal_id(UUID.randomUUID().toString());
             Especialidad especialidad = new Especialidad();
             System.out.println(cbxTipo.getSelectedIndex());
-            if (cbxTipo.getSelectedIndex()==1) {                
+            if (cbxTipo.getSelectedIndex() == 1) {
                 especialidad.setNombre((String) ComboBoxEsp.getSelectedItem());
                 people.setE(especialidad);
+            }
+            if (cbxTipo.getSelectedIndex()==1 ||cbxTipo.getSelectedIndex()==2 ) {
+                CitaMedica[]  citas = new CitaMedica[0];
+                people.setCitas(citas);
             }
             per.setPersona(people);
             per.guardar();
@@ -1402,17 +1463,76 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ListaSimple listaPersonas = per.listar();
         PerEnc = (Persona) listaPersonas.busquedaBinaria(CedBusqueda.getText(), "cedula");
-        if (per!=null) {
-            System.out.println("-----------Encontrado--------");
-            RtaNombre.setText(PerEnc.getNombres());
-            RtaApellido.setText(PerEnc.getApellidos());
-            RtaDir.setText(PerEnc.getDireccion());
-        }else{
+        if (PerEnc != null) {
+            if (PerEnc.getId_rol() == 3) {
+                System.out.println("-----------Encontrado--------");
+                RtaNombre.setText(PerEnc.getNombres());
+                RtaApellido.setText(PerEnc.getApellidos());
+                RtaDir.setText(PerEnc.getDireccion());
+            }
+        } else {
             System.out.println("----------No------------");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        CitaMedica nuevacita = new CitaMedica();
+        Persona PacienteC = PerEnc;
+        Persona doc = SacarDoctor(CBoxMed.getSelectedIndex());
+        doc.setCitas(null);
+        nuevacita.setDoc(doc);
+        PacienteC.setCitas(null);
+        nuevacita.setPaciente(PacienteC);
+        nuevacita.setFecha(DateCita.getDate());
+        nuevacita.setTipoCita(txtNombreCita.getText());
+        nuevacita.setEstado(false);
+        ListaSimple listaPersonas = per.listar();
+        Persona doctor = (Persona) SacarDoctor(CBoxMed.getSelectedIndex());        
+        CitaMedica[] cita = doctor.getCitas();
+        CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
+        int cont = 0;
+        for (int i = 0; i < temCitas.length; i++) {
+            if (cont == i && i + 1 < temCitas.length) {
+                if (cita.length == 0) {
+                    temCitas[i] = nuevacita;
+                    break;
+                }
+                temCitas[i] = cita[i];
+                cont++;
+            } else {
+                temCitas[i] = nuevacita;
+            }
+        }
+        doctor.setCitas(temCitas);   
+        try {
+            per.modificar(doctor, listaPersonas.buscarindice(doctor));
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Persona Paciente = (Persona) buscarPaciente();        
+        CitaMedica[] cita1 = Paciente.getCitas();
+        CitaMedica[] temCitas1 = new CitaMedica[Paciente.getCitas().length + 1];
+        int cont1 = 0;
+        for (int i = 0; i < temCitas1.length; i++) {
+            if (cont1 == i && i + 1 < temCitas1.length) {
+                if (cita1.length == 0) {
+                    temCitas1[i] = nuevacita;
+                    break;
+                }
+                temCitas1[i] = cita1[i];
+                cont++;
+            } else {
+                temCitas1[i] = nuevacita;
+            }
+        }
+        Paciente.setCitas(temCitas1);   
+        try {
+            per.modificar(Paciente, listaPersonas.buscarindice(Paciente));
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -1435,27 +1555,27 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void cbxEspCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxEspCitaMouseClicked
-        
+
     }//GEN-LAST:event_cbxEspCitaMouseClicked
 
     private void cbxEspCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEspCitaActionPerformed
         ListaSimple personas = per.listar();
-        int cont=0;
-        int cont1 = 0;        
+        int cont = 0;
+        int cont1 = 0;
         for (int i = 0; i < personas.tamano(); i++) {
             Persona persona = (Persona) personas.obtenerPorPosicion(i);
-            if (persona.getId_rol()==2&&persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
-                cont++;                
+            if (persona.getId_rol() == 2 && persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
+                cont++;
             }
-        } 
+        }
         Persona[] listaPersonas = new Persona[cont];
         for (int i = 0; i < personas.tamano(); i++) {
             Persona persona = (Persona) personas.obtenerPorPosicion(i);
-            if (persona.getId_rol()==2&&persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
+            if (persona.getId_rol() == 2 && persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
                 listaPersonas[cont1] = persona;
-                cont1++;               
+                cont1++;
             }
-        }        
+        }
         CBoxMed.removeAllItems();
         for (int i = 0; i < listaPersonas.length; i++) {
             CBoxMed.addItem(listaPersonas[i].getNombres());

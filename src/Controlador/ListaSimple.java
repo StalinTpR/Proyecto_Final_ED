@@ -77,6 +77,20 @@ public class ListaSimple {
         }
         return r;
     }
+    public int buscarindice(Object c){
+        int cont = 0;
+        if (!estaVacio()) {
+            Nodo tmp = cabecera;
+            while(tmp != null){
+                if (tmp.getDato().toString().equals(c.toString())) {
+                    return cont;                    
+                }
+                tmp = tmp.getSig();
+                cont++;
+            }
+        }
+        return cont;    
+    }
     
     public boolean existeCliente(Object c){
         boolean existe=false;
