@@ -27,6 +27,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -53,8 +54,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     public VistaAdministrador() {
         initComponents();
-        
-        
+
         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
@@ -75,10 +75,14 @@ public class VistaAdministrador extends javax.swing.JFrame {
             cont--;
         }
         CargarCbxDep(ComboBoxDep, ComboBoxEsp);
+        cargarTablaPersona();
+
+    }
+
+    public void cargarTablaPersona() {
         modelPersona.setS(per.listar());
         jTable1.setModel(modelPersona);
         jTable1.updateUI();
-
     }
 
     public void CargarCbxDep(JComboBox cbxa, JComboBox cbxb) {
@@ -119,17 +123,19 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jTableEspecialidad.updateUI();
 
     }
-    public Persona buscarPaciente(){
+
+    public Persona buscarPaciente() {
         ListaSimple lista = per.listar();
-        return (Persona) lista.obtenerPorPosicion(lista.buscarindice(PerEnc));       
+        return (Persona) lista.obtenerPorPosicion(lista.buscarindice(PerEnc));
     }
 
     public void CargarVCita() {
         CargarCbxDep(cbxDepCita, cbxEspCita);
     }
-    public Persona SacarDoctor(int pos){
-    ListaSimple personas = per.listar();
-    Persona doctor = new Persona();
+
+    public Persona SacarDoctor(int pos) {
+        ListaSimple personas = per.listar();
+        Persona doctor = new Persona();
         int cont = 0;
         int cont1 = 0;
         for (int i = 0; i < personas.tamano(); i++) {
@@ -146,9 +152,10 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 cont1++;
             }
         }
-        return doctor=listaPersonas[pos];     
+        return doctor = listaPersonas[pos];
     }
-    public void ModificarPersonasCitas(Object c){
+
+    public void ModificarPersonasCitas(Object c) {
         CitaMedica nuevacita = new CitaMedica();
         nuevacita.setDoc(SacarDoctor(CBoxMed.getSelectedIndex()));
         nuevacita.setPaciente(PerEnc);
@@ -156,7 +163,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         nuevacita.setTipoCita(txtNombreCita.getText());
         nuevacita.setEstado(false);
         ListaSimple listaPersonas = per.listar();
-        Persona doctor = (Persona) c;        
+        Persona doctor = (Persona) c;
         CitaMedica[] cita = doctor.getCitas();
         CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
         int cont = 0;
@@ -174,7 +181,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         }
         doctor.setCitas(temCitas);
         try {
-            per.modificar(s, listaPersonas.buscarindice(doctor));            
+            per.modificar(s, listaPersonas.buscarindice(doctor));
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -213,7 +220,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
         btnEliminarEsp = new javax.swing.JButton();
         cbxDepEs = new javax.swing.JComboBox<>();
         jLabel24 = new javax.swing.JLabel();
-        btnSelecEsp = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableEspecialidad = new javax.swing.JTable();
         panelUsr = new javax.swing.JPanel();
@@ -566,13 +572,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel24.setText("Departamento:");
 
-        btnSelecEsp.setText("Seleccionar");
-        btnSelecEsp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelecEspActionPerformed(evt);
-            }
-        });
-
         jTableEspecialidad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -600,9 +599,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                         .addGap(106, 106, 106))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnEliminarEsp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSelecEsp)
-                        .addGap(94, 94, 94))
+                        .addGap(94, 207, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel19)
@@ -610,7 +607,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbxDepEs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEspecialidadES, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtEspecialidadES, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
@@ -630,9 +628,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                     .addComponent(jButton13)
                     .addComponent(btnModificarEsp))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminarEsp)
-                    .addComponent(btnSelecEsp))
+                .addComponent(btnEliminarEsp)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -732,6 +728,11 @@ public class VistaAdministrador extends javax.swing.JFrame {
         txtDepartamento.setText("Departamento:");
 
         ComboBoxDep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboBoxDep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxDepActionPerformed(evt);
+            }
+        });
 
         ComboBoxEsp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -863,6 +864,11 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jLabel8.setText("Departamento:");
 
         cbxDepCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxDepCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxDepCitaActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Medico de la consulta:");
 
@@ -1362,8 +1368,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 especialidad.setNombre((String) ComboBoxEsp.getSelectedItem());
                 people.setE(especialidad);
             }
-            if (cbxTipo.getSelectedIndex()==1 ||cbxTipo.getSelectedIndex()==2 ) {
-                CitaMedica[]  citas = new CitaMedica[0];
+            if (cbxTipo.getSelectedIndex() == 1 || cbxTipo.getSelectedIndex() == 2) {
+                CitaMedica[] citas = new CitaMedica[0];
                 people.setCitas(citas);
             }
             per.setPersona(people);
@@ -1378,15 +1384,43 @@ public class VistaAdministrador extends javax.swing.JFrame {
             cuenta.guardar();
             cuenta.setCuenta(null);
             per.setPersona(null);
+        }else {
+            JOptionPane.showMessageDialog(null, "Llenar los campos");
         }
+        cargarTablaPersona();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        Persona st = (Persona) per.Dato(jTable1.getSelectedRow());
+        Cuenta ct = (Cuenta) cuenta.Dato(jTable1.getSelectedRow());
+        st.setNombres(txtNombre.getText());
+        st.setDireccion(txtDireccion.getText());
+        st.setApellidos(txtApellido.getText());
+        st.setCedula(txtCedula.getText());
+        ct.setUsuario(txtUsuario.getText());
+        ct.setClave(txtClave.getText());
+        try {
+            per.modificar(st, jTable1.getSelectedRow());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            cuenta.modificar(ct, jTable1.getSelectedRow());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cargarTablaPersona();
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        try {
+            per.eliminar(jTable1.getSelectedRow());
+            cargarTablaPersona();
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
@@ -1398,7 +1432,18 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        try {
+            Persona s = (Persona) per.Dato(jTable1.getSelectedRow());
+            Cuenta c = (Cuenta) cuenta.Dato(jTable1.getSelectedRow());
+            txtNombre.setText(s.getNombres());
+            txtApellido.setText(s.getApellidos());
+            txtCedula.setText(s.getCedula());
+            txtDireccion.setText(s.getDireccion());
+            txtUsuario.setText(c.getUsuario());
+            txtClave.setText(c.getClave());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -1452,20 +1497,43 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void btnModificarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEspActionPerformed
-        // TODO add your handling code here:
+        Departamento departamento = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
+        for (int i = 0; i < departamento.getEsp().length; i++) {
+            if (i == jTableEspecialidad.getSelectedRow()) {
+                departamento.getEsp()[i].setNombre(txtEspecialidadES.getText());
+            }
+        }
+        try {
+            dep.modificar(departamento, cbxDepEs.getSelectedIndex());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnModificarEspActionPerformed
 
     private void btnEliminarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEspActionPerformed
+
+        Departamento departamento = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
+        Especialidad[] actual = departamento.getEsp();
+        Especialidad[] temporal = new Especialidad[departamento.getEsp().length - 1];
+        int cont = 0;
+        for (int i = 0; i < actual.length; i++) {
+            if (i != jTableEspecialidad.getSelectedRow()) {
+                temporal[cont] = actual[i];
+                cont++;
+            }
+        }
+        departamento.setEsp(temporal);
+        try {
+            dep.modificar(departamento, cbxDepEs.getSelectedIndex());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btnEliminarEspActionPerformed
 
     private void cbxDepEsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDepEsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxDepEsActionPerformed
-
-    private void btnSelecEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecEspActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSelecEspActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ListaSimple listaPersonas = per.listar();
@@ -1494,7 +1562,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         nuevacita.setTipoCita(txtNombreCita.getText());
         nuevacita.setEstado(false);
         ListaSimple listaPersonas = per.listar();
-        Persona doctor = (Persona) SacarDoctor(CBoxMed.getSelectedIndex());        
+        Persona doctor = (Persona) SacarDoctor(CBoxMed.getSelectedIndex());
         CitaMedica[] cita = doctor.getCitas();
         CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
         int cont = 0;
@@ -1510,13 +1578,13 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 temCitas[i] = nuevacita;
             }
         }
-        doctor.setCitas(temCitas);   
+        doctor.setCitas(temCitas);
         try {
             per.modificar(doctor, listaPersonas.buscarindice(doctor));
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Persona Paciente = (Persona) buscarPaciente();        
+        Persona Paciente = (Persona) buscarPaciente();
         CitaMedica[] cita1 = Paciente.getCitas();
         CitaMedica[] temCitas1 = new CitaMedica[Paciente.getCitas().length + 1];
         int cont1 = 0;
@@ -1532,15 +1600,14 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 temCitas1[i] = nuevacita;
             }
         }
-        Paciente.setCitas(temCitas1);   
+        Paciente.setCitas(temCitas1);
         try {
             per.modificar(Paciente, listaPersonas.buscarindice(Paciente));
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1600,6 +1667,25 @@ public class VistaAdministrador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton18ActionPerformed
 
+    private void ComboBoxDepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxDepActionPerformed
+        ComboBoxEsp.removeAllItems();
+        ListaSimple listaDep = dep.listar();
+        Departamento depEsp = (Departamento) listaDep.obtenerPorPosicion(ComboBoxDep.getSelectedIndex());
+        for (int i = 0; i < depEsp.getEsp().length; i++) {
+            ComboBoxEsp.addItem(depEsp.getEsp()[i].getNombre());
+        }
+    }//GEN-LAST:event_ComboBoxDepActionPerformed
+
+    private void cbxDepCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDepCitaActionPerformed
+
+        cbxEspCita.removeAllItems();
+        ListaSimple listaDep = dep.listar();
+        Departamento depEsp = (Departamento) listaDep.obtenerPorPosicion(cbxDepCita.getSelectedIndex());
+        for (int i = 0; i < depEsp.getEsp().length; i++) {
+            cbxEspCita.addItem(depEsp.getEsp()[i].getNombre());
+        }
+    }//GEN-LAST:event_cbxDepCitaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1656,7 +1742,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton btnE;
     private javax.swing.JButton btnEliminarEsp;
     private javax.swing.JButton btnModificarEsp;
-    private javax.swing.JButton btnSelecEsp;
     private javax.swing.JComboBox<String> cbxDepCita;
     private javax.swing.JComboBox<String> cbxDepEs;
     private javax.swing.JComboBox<String> cbxEspCita;

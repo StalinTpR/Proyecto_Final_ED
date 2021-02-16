@@ -1,1 +1,1 @@
-{"Controlador.ListaSimple":{"cabecera":{"dato":{"@class":"Modelo.Departamento","id":1,"nombre":"Farmacia","Esp":[{"Modelo.Especialidad":{"id":1,"nombre":"Farmaseuticos"}}]}}}}
+{"Controlador.ListaSimple":{"cabecera":{"dato":{"@class":"Modelo.Departamento","id":2,"nombre":"Cirugia","Esp":[{"Modelo.Especialidad":[{"id":1,"nombre":"lol"},{"id":3,"nombre":"Cirujano"}]}]},"sig":{"dato":{"@class":"Modelo.Departamento","id":1,"nombre":"","Esp":[{"Modelo.Especialidad":{"id":1,"nombre":"Farmaseuticos"}}]}}}}}
