@@ -32,15 +32,18 @@ public class ListaSimple {
     }
 
     public void insertar(Object dato) {
-        if (dato == null) {
-            new NullPointerException("Se debe agregar un objeto restaurante");
+        if (tamano() <= this.tamano()) {
+            if (!existeCliente(dato)) {
+                Nodo tmp = new Nodo(dato,null);
+                tmp.setSig(cabecera);
+                cabecera=tmp;
+            }else{
+                System.out.println("esta cedula dañada");
+            }
+            
+        }else{
+            System.out.println("La Lista esta Llena");
         }
-        //se crea el nodo con el dato y que apunte a nulo
-        Nodo tmp = new Nodo(dato, null);
-        //se apunta el nodo temporal a la cabecera
-        tmp.setSig(cabecera);
-        //se mueve el nodo tmp a la cabecera
-        cabecera = tmp;
     }
 
     public boolean estaVacio() {
@@ -73,6 +76,21 @@ public class ListaSimple {
             }
         }
         return r;
+    }
+    
+    public boolean existeCliente(Object c){
+        boolean existe=false;
+        if (!estaVacio()) {
+            Nodo tmp = cabecera;
+            while(tmp != null){
+                if (tmp.getDato().toString().equals(c.toString())) {
+                    existe = true;
+                    break;
+                }
+                tmp = tmp.getSig();
+            }
+        }
+        return existe;    
     }
 
     public void verDatos() {
@@ -178,7 +196,6 @@ public class ListaSimple {
         if (!estaVacio()) {
             if (pos < 0) {
                 System.out.println("Debe ser una posicion mayor a cerp");
-
             } else {
                 if (pos == 0) {
                     cabecera = cabecera.getSig();
