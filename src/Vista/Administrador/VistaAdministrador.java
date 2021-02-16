@@ -10,6 +10,7 @@ import Controlador.Dao.DepartamentoDao;
 import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
+import Controlador.Servicio.PersonaServicio;
 import Modelo.Cuenta;
 import Modelo.Departamento;
 import Modelo.Especialidad;
@@ -24,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -38,6 +40,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private TablaPersona modelPersona = new TablaPersona();
     private DepartamentoDao dep = new DepartamentoDao();
     private TablaEspecialidad modelEspecialidad = new TablaEspecialidad();
+    private Persona PerEnc;
 
     /**
      * Creates new form VistaAdministrador
@@ -50,7 +53,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     public VistaAdministrador() {
         initComponents();
         cargar();
-        CargarVDep();        
+        CargarVDep();
         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
@@ -64,30 +67,45 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     public void cargar() {
         cbxTipo.removeAllItems();
-        int cont = s.tamano()-1;
+        int cont = s.tamano() - 1;
         for (int i = 0; i < s.tamano(); i++) {
             Rol s1 = (Rol) rol.Dato(cont);
             cbxTipo.addItem(s1.getNombre());
             cont--;
         }
+        CargarCbxDep(ComboBoxDep,ComboBoxEsp);
         modelPersona.setS(per.listar());
         jTable1.setModel(modelPersona);
         jTable1.updateUI();
-        
-        
+
     }
-    public void CargarVDep(){
+
+    public void CargarCbxDep(JComboBox cbxa,JComboBox cbxb) {
+        cbxa.removeAllItems();
+        cbxb.removeAllItems();
+        ListaSimple listaDep = dep.listar();
+        for (int i = 0; i < listaDep.tamano(); i++) {
+            Departamento departa = (Departamento) listaDep.obtenerPorPosicion(i);
+            cbxa.addItem(departa.getNombre());
+        }
+        Departamento depEsp = (Departamento) listaDep.obtenerPorPosicion(cbxa.getSelectedIndex());
+        for (int i = 0; i < depEsp.getEsp().length; i++) {
+            cbxb.addItem(depEsp.getEsp()[i].getNombre());
+        }
+    }
+
+    public void CargarVDep() {
         jList1.removeAll();
         ListaSimple listaDep = dep.listar();
         String[] NombresDep = new String[listaDep.tamano()];
         for (int i = 0; i < listaDep.tamano(); i++) {
             Departamento Deplis = (Departamento) listaDep.obtenerPorPosicion(i);
-            NombresDep[i]=Deplis.getNombre();            
+            NombresDep[i] = Deplis.getNombre();
         }
         jList1.setListData(NombresDep);
     }
-    
-    public void CargarVEsp(){
+
+    public void CargarVEsp() {
         cbxDepEs.removeAllItems();
         ListaSimple listaDep = dep.listar();
         for (int i = 0; i < listaDep.tamano(); i++) {
@@ -98,21 +116,11 @@ public class VistaAdministrador extends javax.swing.JFrame {
         modelEspecialidad.setEsp(dep.getEsp());
         jTableEspecialidad.setModel(modelEspecialidad);
         jTableEspecialidad.updateUI();
-        
+
     }
-    
-    public void CargarVCita(){
-        cbxDepCita.removeAllItems();
-        cbxEspCita.removeAllItems();
-        ListaSimple listaDep = dep.listar();
-        for (int i = 0; i < listaDep.tamano(); i++) {
-            Departamento departa = (Departamento) listaDep.obtenerPorPosicion(i);
-            cbxDepCita.addItem(departa.getNombre());            
-        }
-        Departamento depEsp = (Departamento) listaDep.obtenerPorPosicion(cbxDepCita.getSelectedIndex());
-        for (int i = 0; i < depEsp.getEsp().length; i++) {
-            cbxEspCita.addItem(depEsp.getEsp()[i].getNombre());
-        }
+
+    public void CargarVCita() {        
+        CargarCbxDep(cbxDepCita, cbxEspCita);          
     }
 
     /**
@@ -158,26 +166,25 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtEspecialidad = new javax.swing.JLabel();
-        txtNombre1 = new javax.swing.JTextField();
-        txtApellido1 = new javax.swing.JTextField();
-        txtCedula1 = new javax.swing.JTextField();
-        txtDireccion1 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtApellido = new javax.swing.JTextField();
+        txtCedula = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         cbxTipo = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        txtUsuario1 = new javax.swing.JTextField();
+        txtUsuario = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        txtClave1 = new javax.swing.JTextField();
+        txtClave = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         txtDepartamento = new javax.swing.JLabel();
         ComboBoxDep = new javax.swing.JComboBox<>();
         ComboBoxEsp = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
         panelC = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -637,9 +644,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel16.setText("Usuario;");
 
-        txtUsuario1.addActionListener(new java.awt.event.ActionListener() {
+        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuario1ActionPerformed(evt);
+                txtUsuarioActionPerformed(evt);
             }
         });
 
@@ -671,13 +678,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         ComboBoxEsp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("Agregar Especialidad");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -701,26 +701,25 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombre1)
-                            .addComponent(txtApellido1)
-                            .addComponent(txtCedula1)
-                            .addComponent(txtDireccion1)
-                            .addComponent(txtUsuario1)
-                            .addComponent(txtClave1)
+                            .addComponent(txtNombre)
+                            .addComponent(txtApellido)
+                            .addComponent(txtCedula)
+                            .addComponent(txtDireccion)
+                            .addComponent(txtUsuario)
+                            .addComponent(txtClave)
                             .addComponent(cbxTipo, 0, 125, Short.MAX_VALUE))
                         .addGap(74, 74, 74)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(ComboBoxEsp, javax.swing.GroupLayout.Alignment.LEADING, 0, 193, Short.MAX_VALUE)
                             .addComponent(ComboBoxDep, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -736,30 +735,29 @@ public class VistaAdministrador extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16)
-                            .addComponent(jButton5))
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel17)
-                                    .addComponent(txtClave1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel10)
-                                    .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel11)
-                                    .addComponent(txtApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel12)
-                                    .addComponent(txtCedula1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtDireccion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel13))
                                 .addGap(2, 2, 2))
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -769,9 +767,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton8)
                                 .addGap(27, 27, 27)))
+                        .addGap(33, 33, 33)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtDepartamento)
                                     .addComponent(ComboBoxDep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -779,9 +777,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtEspecialidad)
                                     .addComponent(ComboBoxEsp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(164, Short.MAX_VALUE))
         );
 
@@ -822,6 +818,16 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jLabel20.setText("Especialidad:");
 
         cbxEspCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxEspCita.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxEspCitaMouseClicked(evt);
+            }
+        });
+        cbxEspCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxEspCitaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1277,7 +1283,34 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        if (txtNombre.getText().length() > 0 && txtCedula.getText().length() > 0 && txtDireccion.getText().length() > 0 && txtApellido.getText().length() > 0) {
+            Persona people = new Persona();
+            people.setNombres(txtNombre.getText());
+            people.setDireccion(txtDireccion.getText());
+            people.setApellidos(txtApellido.getText());
+            people.setCedula(txtCedula.getText());
+            Rol roles = (Rol) s.obtenerPorPosicion(cbxTipo.getSelectedIndex());
+            people.setId_rol(roles.getId());
+            people.setExternal_id(UUID.randomUUID().toString());  
+            Especialidad especialidad = new Especialidad();
+            System.out.println(cbxTipo.getSelectedIndex());
+            if (cbxTipo.getSelectedIndex()==1) {                
+                especialidad.setNombre((String) ComboBoxEsp.getSelectedItem());
+                people.setE(especialidad);
+            }
+            per.setPersona(people);
+            per.guardar();
+            Cuenta ncuenta = new Cuenta();
+            ncuenta.setUsuario(txtUsuario.getText());
+            ncuenta.setClave(txtClave.getText());
+            ncuenta.setEstado(true);
+            ncuenta.setId_persona(per.getPersona().getId());
+            ncuenta.setExternal_id(UUID.randomUUID().toString());
+            cuenta.setCuenta(ncuenta);
+            cuenta.guardar();
+            cuenta.setCuenta(null);
+            per.setPersona(null);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -1292,9 +1325,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxTipoActionPerformed
 
-    private void txtUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuario1ActionPerformed
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuario1ActionPerformed
+    }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
@@ -1318,34 +1351,33 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         Departamento departa = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
-        Especialidad especialidad = new Especialidad();   
+        Especialidad especialidad = new Especialidad();
         System.out.println(departa.getEsp().length);
-        if (departa.getEsp().length==0) {
+        if (departa.getEsp().length == 0) {
             especialidad.setId(1);
             especialidad.setNombre(txtEspecialidadES.getText());
-        }else{
-            especialidad.setId(departa.getEsp().length+1);
+        } else {
+            especialidad.setId(departa.getEsp().length + 1);
             especialidad.setNombre(txtEspecialidadES.getText());
         }
         Especialidad[] esp = departa.getEsp();
-        Especialidad[] tem = new Especialidad[departa.getEsp().length+1];
+        Especialidad[] tem = new Especialidad[departa.getEsp().length + 1];
         int cont = 0;
-        for (int i = 0; i < tem.length; i++) {            
-            if (cont==i && i+1<tem.length) {
-                if (esp.length==0) {
-                    tem[i]=especialidad;
+        for (int i = 0; i < tem.length; i++) {
+            if (cont == i && i + 1 < tem.length) {
+                if (esp.length == 0) {
+                    tem[i] = especialidad;
                     break;
                 }
-                tem[i]=esp[i];
+                tem[i] = esp[i];
                 cont++;
+            } else {
+                tem[i] = especialidad;
             }
-            else{
-                tem[i]=especialidad;
-            }
-        } 
+        }
         departa.setEsp(tem);
         try {
-            dep.modificar(departa,cbxDepEs.getSelectedIndex());
+            dep.modificar(departa, cbxDepEs.getSelectedIndex());
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1356,7 +1388,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarEspActionPerformed
 
     private void btnEliminarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEspActionPerformed
-        
+
     }//GEN-LAST:event_btnEliminarEspActionPerformed
 
     private void cbxDepEsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDepEsActionPerformed
@@ -1367,20 +1399,25 @@ public class VistaAdministrador extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSelecEspActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        ListaSimple listaPersonas = per.listar();
+        PerEnc = (Persona) listaPersonas.busquedaBinaria(CedBusqueda.getText(), "cedula");
+        if (per!=null) {
+            System.out.println("-----------Encontrado--------");
+            RtaNombre.setText(PerEnc.getNombres());
+            RtaApellido.setText(PerEnc.getApellidos());
+            RtaDir.setText(PerEnc.getDireccion());
+        }else{
+            System.out.println("----------No------------");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Departamento departamento =  new Departamento();
+        Departamento departamento = new Departamento();
         departamento.setNombre(txtDep.getText());
         departamento.setEsp(new Especialidad[0]);
         dep.setDepartamento(departamento);
@@ -1396,6 +1433,34 @@ public class VistaAdministrador extends javax.swing.JFrame {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void cbxEspCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxEspCitaMouseClicked
+        
+    }//GEN-LAST:event_cbxEspCitaMouseClicked
+
+    private void cbxEspCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEspCitaActionPerformed
+        ListaSimple personas = per.listar();
+        int cont=0;
+        int cont1 = 0;        
+        for (int i = 0; i < personas.tamano(); i++) {
+            Persona persona = (Persona) personas.obtenerPorPosicion(i);
+            if (persona.getId_rol()==2&&persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
+                cont++;                
+            }
+        } 
+        Persona[] listaPersonas = new Persona[cont];
+        for (int i = 0; i < personas.tamano(); i++) {
+            Persona persona = (Persona) personas.obtenerPorPosicion(i);
+            if (persona.getId_rol()==2&&persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
+                listaPersonas[cont1] = persona;
+                cont1++;               
+            }
+        }        
+        CBoxMed.removeAllItems();
+        for (int i = 0; i < listaPersonas.length; i++) {
+            CBoxMed.addItem(listaPersonas[i].getNombres());
+        }
+    }//GEN-LAST:event_cbxEspCitaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1459,7 +1524,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxEspCita;
     private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JPanel contenedor;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -1514,17 +1578,17 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private javax.swing.JPanel panelD;
     private javax.swing.JPanel panelE;
     private javax.swing.JPanel panelUsr;
-    private javax.swing.JTextField txtApellido1;
-    private javax.swing.JTextField txtCedula1;
-    private javax.swing.JTextField txtClave1;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtCedula;
+    private javax.swing.JTextField txtClave;
     private javax.swing.JTextField txtDep;
     private javax.swing.JLabel txtDepartamento;
-    private javax.swing.JTextField txtDireccion1;
+    private javax.swing.JTextField txtDireccion;
     private javax.swing.JLabel txtEspecialidad;
     private javax.swing.JTextField txtEspecialidadES;
-    private javax.swing.JTextField txtNombre1;
+    private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombreCita;
-    private javax.swing.JTextField txtUsuario1;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
 }

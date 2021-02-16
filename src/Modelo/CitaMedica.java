@@ -17,6 +17,15 @@ public class CitaMedica {
     private Persona Paciente;
     private Persona Doc;
     private Date fecha;
+    private boolean estado;
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
 
     public long getIdCita() {
         return idCita;
