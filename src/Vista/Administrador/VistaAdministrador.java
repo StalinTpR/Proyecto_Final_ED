@@ -53,8 +53,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     public VistaAdministrador() {
         initComponents();
-        cargar();
-        CargarVDep();
+        
+        
         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
@@ -1144,6 +1144,11 @@ public class VistaAdministrador extends javax.swing.JFrame {
         });
 
         jButton18.setText("Modificar");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -1323,6 +1328,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     private void btnDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDActionPerformed
         cardLayout.show(contenedor, "panelD");
+        CargarVDep();
     }//GEN-LAST:event_btnDActionPerformed
 
     private void btnEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEActionPerformed
@@ -1332,6 +1338,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     private void btnDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocActionPerformed
         cardLayout.show(contenedor, "panelDoc");
+        cargar();
     }//GEN-LAST:event_btnDocActionPerformed
 
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
@@ -1581,6 +1588,17 @@ public class VistaAdministrador extends javax.swing.JFrame {
             CBoxMed.addItem(listaPersonas[i].getNombres());
         }
     }//GEN-LAST:event_cbxEspCitaActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        ListaSimple lista = dep.listar();
+        Departamento departamento = (Departamento) dep.Dato(jList1.getSelectedIndex());
+        departamento.setNombre(txtDep.getText());
+        try {
+            dep.modificar(departamento, jList1.getSelectedIndex());
+        } catch (Exception ex) {
+            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton18ActionPerformed
 
     /**
      * @param args the command line arguments
