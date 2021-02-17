@@ -12,6 +12,7 @@ import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
 import Controlador.Servicio.PersonaServicio;
+import Modelo.CitaMedica;
 import Modelo.Cuenta;
 import Modelo.Departamento;
 import Modelo.Especialidad;
@@ -27,6 +28,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,14 +36,11 @@ import javax.swing.JComboBox;
  */
 public class VistaMedico extends javax.swing.JFrame {
 
-    public static RolDao rol = new RolDao();
-    private CuentaDao cuenta = new CuentaDao();
     private PersonaDao per = new PersonaDao();
-    private ListaSimple s = rol.ordenar();
-    private TablaPersona modelPersona = new TablaPersona();
-    private DepartamentoDao dep = new DepartamentoDao();
-    private TablaEspecialidad modelEspecialidad = new TablaEspecialidad();
     private Persona PerEnc;
+    private Login sesion = new Login();
+    private Persona Doctor =sesion.s.getPersona();
+    private TablaCitas Modelocitas = new TablaCitas();
 
     /**
      * Creates new form VistaAdministrador
@@ -52,34 +51,26 @@ public class VistaMedico extends javax.swing.JFrame {
     CardLayout cardLayout;
 
     public VistaMedico() {
-        initComponents();
-//        cargar();
-//        CargarVDep();
+        initComponents();        
         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
     public void colorNav(Color color1, Color color2, Color color3, Color color4, Color color5) {
         PNavD.setBackground(color1);
-//        PNavE.setBackground(color2);
-//        PNavDoc.setBackground(color3);
         PNavP.setBackground(color4);
         PNavC.setBackground(color5);
     }
-
-//    public void cargar() {
-//        cbxTipo.removeAllItems();
-//        int cont = s.tamano() - 1;
-//        for (int i = 0; i < s.tamano(); i++) {
-//            Rol s1 = (Rol) rol.Dato(cont);
-//            cbxTipo.addItem(s1.getNombre());
-//            cont--;
-//        }
-//        CargarCbxDep(ComboBoxDep,ComboBoxEsp);
-//        modelPersona.setS(per.listar());
-//        jTable1.setModel(modelPersona);
-//        jTable1.updateUI();
-//
-//    }
+    public Persona buscarPaciente() {
+        ListaSimple lista = per.listar();
+        return (Persona) lista.obtenerPorPosicion(lista.buscarindice(PerEnc));
+    }
+    public void CargarTablaCitas(){
+        ListaSimple lista = per.listar();
+        Persona Doc = (Persona) lista.obtenerPorPosicion(lista.buscarindice(Doctor));
+        Modelocitas.setSd(Doc.getCitas());
+        jTable1.setModel(Modelocitas);
+        jTable1.updateUI();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,14 +96,8 @@ public class VistaMedico extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         DateCita = new com.toedter.calendar.JDateChooser();
-        jLabel8 = new javax.swing.JLabel();
-        cbxDepCita = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
-        CBoxMed = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         txtNombreCita = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
-        cbxEspCita = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         CedBusqueda = new javax.swing.JTextField();
@@ -296,6 +281,7 @@ public class VistaMedico extends javax.swing.JFrame {
                             .addComponent(btnD, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(btnC, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
                                 .addComponent(PNavP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(PNavD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -306,67 +292,25 @@ public class VistaMedico extends javax.swing.JFrame {
 
         jLabel2.setText("Fecha de la consulta:");
 
-        jLabel8.setText("Departamento:");
-
-        cbxDepCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel9.setText("Medico de la consulta:");
-
-        CBoxMed.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel14.setText("Nombre de la cita:");
-
-        txtNombreCita.setText("jTextField1");
-
-        jLabel20.setText("Especialidad:");
-
-        cbxEspCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxEspCita.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbxEspCitaMouseClicked(evt);
-            }
-        });
-        cbxEspCita.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxEspCitaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addComponent(jLabel14)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtNombreCita, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel20))
-                                .addGap(20, 20, 20)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbxEspCita, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DateCita, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CBoxMed, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(37, 37, 37)
-                                .addComponent(cbxDepCita, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(325, 325, 325)))
-                .addGap(140, 140, 140))
+                        .addComponent(txtNombreCita, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(DateCita, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,32 +319,16 @@ public class VistaMedico extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtNombreCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(cbxDepCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
                     .addComponent(DateCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(CBoxMed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbxEspCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(33, 33, 33))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del paciente"));
 
         jLabel6.setText("C.I:");
-
-        CedBusqueda.setText("jTextField1");
 
         jButton2.setText("BUSCAR");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -488,10 +416,11 @@ public class VistaMedico extends javax.swing.JFrame {
                 .addGroup(panelCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelCLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(97, 97, 97)
+                        .addGap(91, 91, 91)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(5358, Short.MAX_VALUE))
+                .addContainerGap(5364, Short.MAX_VALUE))
         );
         panelCLayout.setVerticalGroup(
             panelCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -500,12 +429,12 @@ public class VistaMedico extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(115, 115, 115)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelCLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(235, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         contenedor.add(panelC, "panelC");
@@ -712,7 +641,8 @@ public class VistaMedico extends javax.swing.JFrame {
 
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
         cardLayout.show(contenedor, "panelC");
-        
+        CargarTablaCitas();
+
     }//GEN-LAST:event_btnCActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -734,47 +664,82 @@ public class VistaMedico extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ListaSimple listaPersonas = per.listar();
         PerEnc = (Persona) listaPersonas.busquedaBinaria(CedBusqueda.getText(), "cedula");
-        if (per!=null) {
+        if (per != null) {
             System.out.println("-----------Encontrado--------");
             RtaNombre.setText(PerEnc.getNombres());
             RtaApellido.setText(PerEnc.getApellidos());
             RtaDir.setText(PerEnc.getDireccion());
-        }else{
+        } else {
             System.out.println("----------No------------");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
-    }//GEN-LAST:event_jButton4ActionPerformed
+        if (txtNombreCita.getText().length() > 0) {
+            if (PerEnc != null) {
+                CitaMedica nuevacita = new CitaMedica();
+                Persona PacienteC = PerEnc;
+                Persona doc = Doctor;
+                doc.setCitas(null);
+                nuevacita.setDoc(doc);
+                PacienteC.setCitas(null);
+                nuevacita.setPaciente(PacienteC);
+                nuevacita.setFecha(DateCita.getDate());
+                nuevacita.setTipoCita(txtNombreCita.getText());
+                nuevacita.setEstado(false);
+                ListaSimple listaPersonas = per.listar();
+                Persona doctor = (Persona) Doctor;
+                CitaMedica[] cita = doctor.getCitas();
+                CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
+                int cont = 0;
+                for (int i = 0; i < temCitas.length; i++) {
+                    if (cont == i && i + 1 < temCitas.length) {
+                        if (cita.length == 0) {
+                            temCitas[i] = nuevacita;
+                            break;
+                        }
+                        temCitas[i] = cita[i];
+                        cont++;
+                    } else {
+                        temCitas[i] = nuevacita;
+                    }
+                }
+                doctor.setCitas(temCitas);
+                try {
+                    per.modificar(doctor, listaPersonas.buscarindice(doctor));
+                } catch (Exception ex) {
+                    Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Persona Paciente = (Persona) buscarPaciente();
+                CitaMedica[] cita1 = Paciente.getCitas();
+                CitaMedica[] temCitas1 = new CitaMedica[Paciente.getCitas().length + 1];
+                int cont1 = 0;
+                for (int i = 0; i < temCitas1.length; i++) {
+                    if (cont1 == i && i + 1 < temCitas1.length) {
+                        if (cita1.length == 0) {
+                            temCitas1[i] = nuevacita;
+                            break;
+                        }
+                        temCitas1[i] = cita1[i];
+                        cont++;
+                    } else {
+                        temCitas1[i] = nuevacita;
+                    }
+                }
+                Paciente.setCitas(temCitas1);
+                try {
+                    per.modificar(Paciente, listaPersonas.buscarindice(Paciente));
+                } catch (Exception ex) {
+                    Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-    private void cbxEspCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxEspCitaMouseClicked
-        
-    }//GEN-LAST:event_cbxEspCitaMouseClicked
-
-    private void cbxEspCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEspCitaActionPerformed
-        ListaSimple personas = per.listar();
-        int cont=0;
-        int cont1 = 0;        
-        for (int i = 0; i < personas.tamano(); i++) {
-            Persona persona = (Persona) personas.obtenerPorPosicion(i);
-            if (persona.getId_rol()==2&&persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
-                cont++;                
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay Paciente");
             }
-        } 
-        Persona[] listaPersonas = new Persona[cont];
-        for (int i = 0; i < personas.tamano(); i++) {
-            Persona persona = (Persona) personas.obtenerPorPosicion(i);
-            if (persona.getId_rol()==2&&persona.getE().getNombre().equals(cbxEspCita.getSelectedItem())) {
-                listaPersonas[cont1] = persona;
-                cont1++;               
-            }
-        }        
-        CBoxMed.removeAllItems();
-        for (int i = 0; i < listaPersonas.length; i++) {
-            CBoxMed.addItem(listaPersonas[i].getNombres());
+        } else {
+            JOptionPane.showMessageDialog(null, "Compruebe que Fecha y nombre de la Cita");
         }
-    }//GEN-LAST:event_cbxEspCitaActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -817,7 +782,6 @@ public class VistaMedico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> CBoxMed;
     private javax.swing.JTextField CedBusqueda;
     private com.toedter.calendar.JDateChooser DateCita;
     private javax.swing.JPanel PNav;
@@ -829,8 +793,6 @@ public class VistaMedico extends javax.swing.JFrame {
     private javax.swing.JLabel RtaNombre;
     private javax.swing.JButton btnC;
     private javax.swing.JButton btnD;
-    private javax.swing.JComboBox<String> cbxDepCita;
-    private javax.swing.JComboBox<String> cbxEspCita;
     private javax.swing.JPanel contenedor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -842,13 +804,10 @@ public class VistaMedico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;

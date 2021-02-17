@@ -11,6 +11,7 @@ import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
 import Controlador.Servicio.PersonaServicio;
+import Controlador.Utilies;
 import Modelo.CitaMedica;
 import Modelo.Cuenta;
 import Modelo.Departamento;
@@ -876,8 +877,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel14.setText("Nombre de la cita:");
 
-        txtNombreCita.setText("jTextField1");
-
         jLabel20.setText("Especialidad:");
 
         cbxEspCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -959,8 +958,6 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del paciente"));
 
         jLabel6.setText("C.I:");
-
-        CedBusqueda.setText("jTextField1");
 
         jButton2.setText("BUSCAR");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -1359,72 +1356,72 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    if(txtNombre.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtClave.getText().isEmpty() || txtApellido.getText().isEmpty() || txtCedula.getText().isEmpty() || txtDireccion.getText().isEmpty()){
-        JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
-    }else{
-        if (txtNombre.getText().length() > 0 && txtCedula.getText().length() > 0 && txtDireccion.getText().length() > 0 && txtApellido.getText().length() > 0) {
-            Persona people = new Persona();
-            people.setNombres(txtNombre.getText());
-            people.setDireccion(txtDireccion.getText());
-            people.setApellidos(txtApellido.getText());
-            people.setCedula(txtCedula.getText());
-            Rol roles = (Rol) s.obtenerPorPosicion(cbxTipo.getSelectedIndex());
-            people.setId_rol(roles.getId());
-            people.setExternal_id(UUID.randomUUID().toString());
-            Especialidad especialidad = new Especialidad();
-            System.out.println(cbxTipo.getSelectedIndex());
-            if (cbxTipo.getSelectedIndex() == 1) {
-                especialidad.setNombre((String) ComboBoxEsp.getSelectedItem());
-                people.setE(especialidad);
+        if (txtNombre.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtClave.getText().isEmpty() || txtApellido.getText().isEmpty() || txtCedula.getText().isEmpty() || txtDireccion.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (txtNombre.getText().length() > 0 && txtCedula.getText().length() > 0 && txtDireccion.getText().length() > 0 && txtApellido.getText().length() > 0) {
+                Persona people = new Persona();
+                people.setNombres(txtNombre.getText());
+                people.setDireccion(txtDireccion.getText());
+                people.setApellidos(txtApellido.getText());
+                people.setCedula(txtCedula.getText());
+                Rol roles = (Rol) s.obtenerPorPosicion(cbxTipo.getSelectedIndex());
+                people.setId_rol(roles.getId());
+                people.setExternal_id(UUID.randomUUID().toString());
+                Especialidad especialidad = new Especialidad();
+                System.out.println(cbxTipo.getSelectedIndex());
+                if (cbxTipo.getSelectedIndex() == 1) {
+                    especialidad.setNombre((String) ComboBoxEsp.getSelectedItem());
+                    people.setE(especialidad);
+                }
+                if (cbxTipo.getSelectedIndex() == 1 || cbxTipo.getSelectedIndex() == 2) {
+                    CitaMedica[] citas = new CitaMedica[0];
+                    people.setCitas(citas);
+                }
+                per.setPersona(people);
+                per.guardar();
+                Cuenta ncuenta = new Cuenta();
+                ncuenta.setUsuario(txtUsuario.getText());
+                ncuenta.setClave(txtClave.getText());
+                ncuenta.setEstado(true);
+                ncuenta.setId_persona(per.getPersona().getId());
+                ncuenta.setExternal_id(UUID.randomUUID().toString());
+                cuenta.setCuenta(ncuenta);
+                cuenta.guardar();
+                cuenta.setCuenta(null);
+                per.setPersona(null);
+            } else {
+                JOptionPane.showMessageDialog(null, "Llenar los campos");
             }
-            if (cbxTipo.getSelectedIndex() == 1 || cbxTipo.getSelectedIndex() == 2) {
-                CitaMedica[] citas = new CitaMedica[0];
-                people.setCitas(citas);
-            }
-            per.setPersona(people);
-            per.guardar();
-            Cuenta ncuenta = new Cuenta();
-            ncuenta.setUsuario(txtUsuario.getText());
-            ncuenta.setClave(txtClave.getText());
-            ncuenta.setEstado(true);
-            ncuenta.setId_persona(per.getPersona().getId());
-            ncuenta.setExternal_id(UUID.randomUUID().toString());
-            cuenta.setCuenta(ncuenta);
-            cuenta.guardar();
-            cuenta.setCuenta(null);
-            per.setPersona(null);
-        }else {
-            JOptionPane.showMessageDialog(null, "Llenar los campos");
+            cargarTablaPersona();
         }
-        cargarTablaPersona();
-    }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (txtNombre.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtClave.getText().isEmpty() || txtApellido.getText().isEmpty() || txtCedula.getText().isEmpty() || txtDireccion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-        Persona st = (Persona) per.Dato(jTable1.getSelectedRow());
-        Cuenta ct = (Cuenta) cuenta.Dato(jTable1.getSelectedRow());
-        st.setNombres(txtNombre.getText());
-        st.setDireccion(txtDireccion.getText());
-        st.setApellidos(txtApellido.getText());
-        st.setCedula(txtCedula.getText());
-        ct.setUsuario(txtUsuario.getText());
-        ct.setClave(txtClave.getText());
-        try {
-            per.modificar(st, jTable1.getSelectedRow());
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            Persona st = (Persona) per.Dato(jTable1.getSelectedRow());
+            Cuenta ct = (Cuenta) cuenta.Dato(jTable1.getSelectedRow());
+            st.setNombres(txtNombre.getText());
+            st.setDireccion(txtDireccion.getText());
+            st.setApellidos(txtApellido.getText());
+            st.setCedula(txtCedula.getText());
+            ct.setUsuario(txtUsuario.getText());
+            ct.setClave(txtClave.getText());
+            try {
+                per.modificar(st, jTable1.getSelectedRow());
+            } catch (Exception ex) {
+                Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                cuenta.modificar(ct, jTable1.getSelectedRow());
+            } catch (Exception ex) {
+                Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cargarTablaPersona();
         }
-        try {
-            cuenta.modificar(ct, jTable1.getSelectedRow());
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cargarTablaPersona();
-        }
-        
+
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -1478,79 +1475,83 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-    if(txtEspecialidadES.getText().isEmpty()){
-        JOptionPane.showMessageDialog(null, "Escriba el nombre de la especialidad", "Error", JOptionPane.ERROR_MESSAGE);
-    }else{
-        Departamento departa = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
-        Especialidad especialidad = new Especialidad();
-        System.out.println(departa.getEsp().length);
-        if (departa.getEsp().length == 0) {
-            especialidad.setId(1);
-            especialidad.setNombre(txtEspecialidadES.getText());
+        if (txtEspecialidadES.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Escriba el nombre de la especialidad", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            especialidad.setId(departa.getEsp().length + 1);
-            especialidad.setNombre(txtEspecialidadES.getText());
-        }
-        Especialidad[] esp = departa.getEsp();
-        Especialidad[] tem = new Especialidad[departa.getEsp().length + 1];
-        int cont = 0;
-        for (int i = 0; i < tem.length; i++) {
-            if (cont == i && i + 1 < tem.length) {
-                if (esp.length == 0) {
-                    tem[i] = especialidad;
-                    break;
-                }
-                tem[i] = esp[i];
-                cont++;
+            Departamento departa = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
+            Especialidad especialidad = new Especialidad();
+            System.out.println(departa.getEsp().length);
+            if (departa.getEsp().length == 0) {
+                especialidad.setId(1);
+                especialidad.setNombre(txtEspecialidadES.getText());
             } else {
-                tem[i] = especialidad;
+                especialidad.setId(departa.getEsp().length + 1);
+                especialidad.setNombre(txtEspecialidadES.getText());
+            }
+            Especialidad[] esp = departa.getEsp();
+            Especialidad[] tem = new Especialidad[departa.getEsp().length + 1];
+            int cont = 0;
+            for (int i = 0; i < tem.length; i++) {
+                if (cont == i && i + 1 < tem.length) {
+                    if (esp.length == 0) {
+                        tem[i] = especialidad;
+                        break;
+                    }
+                    tem[i] = esp[i];
+                    cont++;
+                } else {
+                    tem[i] = especialidad;
+                }
+            }
+            departa.setEsp(tem);
+            try {
+                dep.modificar(departa, cbxDepEs.getSelectedIndex());
+            } catch (Exception ex) {
+                Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        departa.setEsp(tem);
-        try {
-            dep.modificar(departa, cbxDepEs.getSelectedIndex());
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void btnModificarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEspActionPerformed
-        if(txtEspecialidadES.getText().isEmpty()){
-          JOptionPane.showMessageDialog(null, "Escriba el nombre de la especialidad", "Error", JOptionPane.ERROR_MESSAGE);  
-        }else{
-        Departamento departamento = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
-        for (int i = 0; i < departamento.getEsp().length; i++) {
-            if (i == jTableEspecialidad.getSelectedRow()) {
-                departamento.getEsp()[i].setNombre(txtEspecialidadES.getText());
+        if (txtEspecialidadES.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Escriba el nombre de la especialidad", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Departamento departamento = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
+            for (int i = 0; i < departamento.getEsp().length; i++) {
+                if (i == jTableEspecialidad.getSelectedRow()) {
+                    departamento.getEsp()[i].setNombre(txtEspecialidadES.getText());
+                }
+            }
+            try {
+                dep.modificar(departamento, cbxDepEs.getSelectedIndex());
+            } catch (Exception ex) {
+                Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        try {
-            dep.modificar(departamento, cbxDepEs.getSelectedIndex());
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     }//GEN-LAST:event_btnModificarEspActionPerformed
 
     private void btnEliminarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEspActionPerformed
-
-        Departamento departamento = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
-        Especialidad[] actual = departamento.getEsp();
-        Especialidad[] temporal = new Especialidad[departamento.getEsp().length - 1];
-        int cont = 0;
-        for (int i = 0; i < actual.length; i++) {
-            if (i != jTableEspecialidad.getSelectedRow()) {
-                temporal[cont] = actual[i];
-                cont++;
+        if (jTableEspecialidad.getSelectedRow() != -1) {
+            Departamento departamento = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
+            Especialidad[] actual = departamento.getEsp();
+            Especialidad[] temporal = new Especialidad[departamento.getEsp().length - 1];
+            int cont = 0;
+            for (int i = 0; i < actual.length; i++) {
+                if (i != jTableEspecialidad.getSelectedRow()) {
+                    temporal[cont] = actual[i];
+                    cont++;
+                }
             }
+            departamento.setEsp(temporal);
+            try {
+                dep.modificar(departamento, cbxDepEs.getSelectedIndex());
+            } catch (Exception ex) {
+                Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un elemento en la tabla");
         }
-        departamento.setEsp(temporal);
-        try {
-            dep.modificar(departamento, cbxDepEs.getSelectedIndex());
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
 
     }//GEN-LAST:event_btnEliminarEspActionPerformed
 
@@ -1559,7 +1560,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxDepEsActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ListaSimple listaPersonas = per.listar();
+        ListaSimple listaPersonas = Utilies.busquedaSecuencial(per.listar(),per.Dato(1), "cedula");        
         PerEnc = (Persona) listaPersonas.busquedaBinaria(CedBusqueda.getText(), "cedula");
         if (PerEnc != null) {
             if (PerEnc.getId_rol() == 3) {
@@ -1574,77 +1575,86 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        CitaMedica nuevacita = new CitaMedica();
-        Persona PacienteC = PerEnc;
-        Persona doc = SacarDoctor(CBoxMed.getSelectedIndex());
-        doc.setCitas(null);
-        nuevacita.setDoc(doc);
-        PacienteC.setCitas(null);
-        nuevacita.setPaciente(PacienteC);
-        nuevacita.setFecha(DateCita.getDate());
-        nuevacita.setTipoCita(txtNombreCita.getText());
-        nuevacita.setEstado(false);
-        ListaSimple listaPersonas = per.listar();
-        Persona doctor = (Persona) SacarDoctor(CBoxMed.getSelectedIndex());
-        CitaMedica[] cita = doctor.getCitas();
-        CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
-        int cont = 0;
-        for (int i = 0; i < temCitas.length; i++) {
-            if (cont == i && i + 1 < temCitas.length) {
-                if (cita.length == 0) {
-                    temCitas[i] = nuevacita;
-                    break;
+        if (txtNombreCita.getText().length()>0) {
+            if (PerEnc != null) {
+                CitaMedica nuevacita = new CitaMedica();
+                Persona PacienteC = PerEnc;
+                Persona doc = SacarDoctor(CBoxMed.getSelectedIndex());
+                doc.setCitas(null);
+                nuevacita.setDoc(doc);
+                PacienteC.setCitas(null);
+                nuevacita.setPaciente(PacienteC);
+                nuevacita.setFecha(DateCita.getDate());
+                nuevacita.setTipoCita(txtNombreCita.getText());
+                nuevacita.setEstado(false);
+                ListaSimple listaPersonas = per.listar();
+                Persona doctor = (Persona) SacarDoctor(CBoxMed.getSelectedIndex());
+                CitaMedica[] cita = doctor.getCitas();
+                CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
+                int cont = 0;
+                for (int i = 0; i < temCitas.length; i++) {
+                    if (cont == i && i + 1 < temCitas.length) {
+                        if (cita.length == 0) {
+                            temCitas[i] = nuevacita;
+                            break;
+                        }
+                        temCitas[i] = cita[i];
+                        cont++;
+                    } else {
+                        temCitas[i] = nuevacita;
+                    }
                 }
-                temCitas[i] = cita[i];
-                cont++;
-            } else {
-                temCitas[i] = nuevacita;
-            }
-        }
-        doctor.setCitas(temCitas);
-        try {
-            per.modificar(doctor, listaPersonas.buscarindice(doctor));
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Persona Paciente = (Persona) buscarPaciente();
-        CitaMedica[] cita1 = Paciente.getCitas();
-        CitaMedica[] temCitas1 = new CitaMedica[Paciente.getCitas().length + 1];
-        int cont1 = 0;
-        for (int i = 0; i < temCitas1.length; i++) {
-            if (cont1 == i && i + 1 < temCitas1.length) {
-                if (cita1.length == 0) {
-                    temCitas1[i] = nuevacita;
-                    break;
+                doctor.setCitas(temCitas);
+                try {
+                    per.modificar(doctor, listaPersonas.buscarindice(doctor));
+                } catch (Exception ex) {
+                    Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                temCitas1[i] = cita1[i];
-                cont++;
+                Persona Paciente = (Persona) buscarPaciente();
+                CitaMedica[] cita1 = Paciente.getCitas();
+                CitaMedica[] temCitas1 = new CitaMedica[Paciente.getCitas().length + 1];
+                int cont1 = 0;
+                for (int i = 0; i < temCitas1.length; i++) {
+                    if (cont1 == i && i + 1 < temCitas1.length) {
+                        if (cita1.length == 0) {
+                            temCitas1[i] = nuevacita;
+                            break;
+                        }
+                        temCitas1[i] = cita1[i];
+                        cont++;
+                    } else {
+                        temCitas1[i] = nuevacita;
+                    }
+                }
+                Paciente.setCitas(temCitas1);
+                try {
+                    per.modificar(Paciente, listaPersonas.buscarindice(Paciente));
+                } catch (Exception ex) {
+                    Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             } else {
-                temCitas1[i] = nuevacita;
+                JOptionPane.showMessageDialog(null, "No hay Paciente");
             }
-        }
-        Paciente.setCitas(temCitas1);
-        try {
-            per.modificar(Paciente, listaPersonas.buscarindice(Paciente));
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            JOptionPane.showMessageDialog(null, "Compruebe que Fecha y nombre de la Cita");
         }
 
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    if(txtDep.getText().isEmpty()){
-        JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
-    }else{
-        Departamento departamento = new Departamento();
-        departamento.setNombre(txtDep.getText());
-        departamento.setEsp(new Especialidad[0]);
-        dep.setDepartamento(departamento);
-        dep.guardar();
-        dep.setDepartamento(null);
-        CargarVDep();
-    } 
+        if (txtDep.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Departamento departamento = new Departamento();
+            departamento.setNombre(txtDep.getText());
+            departamento.setEsp(new Especialidad[0]);
+            dep.setDepartamento(departamento);
+            dep.guardar();
+            dep.setDepartamento(null);
+            CargarVDep();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
@@ -1687,14 +1697,14 @@ public class VistaAdministrador extends javax.swing.JFrame {
         if (txtDep.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-        ListaSimple lista = dep.listar();
-        Departamento departamento = (Departamento) dep.Dato(jList1.getSelectedIndex());
-        departamento.setNombre(txtDep.getText());
-        try {
-            dep.modificar(departamento, jList1.getSelectedIndex());
-        } catch (Exception ex) {
-            Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            ListaSimple lista = dep.listar();
+            Departamento departamento = (Departamento) dep.Dato(jList1.getSelectedIndex());
+            departamento.setNombre(txtDep.getText());
+            try {
+                dep.modificar(departamento, jList1.getSelectedIndex());
+            } catch (Exception ex) {
+                Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_jButton18ActionPerformed

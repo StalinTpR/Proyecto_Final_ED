@@ -123,4 +123,16 @@ public class Utilies {
     public Boolean compararRigido(String uno, String dos) {
         return uno.equals(dos);
     }
+    public static ListaSimple busquedaSecuencial(ListaSimple lsa, Object dato, String atributoClase) {
+        ListaSimple encontrados = new ListaSimple();
+        for (int i = 0; i < lsa.tamano(); i++) {
+            String uno = extracciondato(lsa.obtenerPorPosicion(i), atributoClase);
+            if (uno != null) {
+                if (uno.replace(" ", "").compareToIgnoreCase(String.valueOf(dato)) == 0) {
+                    encontrados.insertar(lsa.obtenerPorPosicion(i));
+                }
+            }
+        }
+        return encontrados;
+    }
 }

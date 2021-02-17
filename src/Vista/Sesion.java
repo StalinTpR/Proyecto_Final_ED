@@ -20,11 +20,11 @@ public class Sesion {
     private static Rol rol;
     private static Persona persona;
 
-    public static Persona getPersona() {
+    public  Persona getPersona() {
         return persona;
     }
 
-    public static void setPersona(Persona persona) {
+    public  void setPersona(Persona persona) {
         Sesion.persona = persona;
     }
     
@@ -46,8 +46,8 @@ public class Sesion {
     }
     
     public static void cargarDatos() {        
-        persona = new PersonaServicio().buscar(cuenta.getId().toString(), PersonaServicio.IDENTIFICADOR);
-        rol = new RolServicio().buscar(persona.getId_rol().toString(), RolServicio.IDENTIFICADOR);
+        persona = new PersonaServicio().buscar(cuenta.getId_persona(), PersonaServicio.CEDULA);
+        rol = new RolServicio().buscar(persona.getId_rol(), RolServicio.IDENTIFICADOR);
     }
 
     @Override

@@ -5,8 +5,11 @@
  */
 package Controlador.Servicio;
 
+import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
+import Controlador.Utilies;
+import Modelo.Persona;
 import Modelo.Rol;
 
 /**
@@ -17,6 +20,7 @@ public class RolServicio {
 
     public static String IDENTIFICADOR = "id";
     public static String NOMBRE = "nombre";
+    private RolDao rol ;
 
     private RolDao obj = new RolDao();
 
@@ -32,10 +36,19 @@ public class RolServicio {
         return obj.ordenar(obj.listar(), tipo, atributo);
     }
 
-    public Rol buscar(String dato, String atributo) {
-        ListaSimple roles = rolesOrdenar(ListaSimple.ORDENAR_DESCENDENTE, atributo);
+    public Rol buscar(Long dato, String atributo) {
+        ListaSimple lista = rol.listar();
+        Rol persona = null;
+        for (int i = 0; i < lista.tamano(); i++) {
+            Rol s = (Rol) lista.obtenerPorPosicion(i);
+            if (s.getId()==dato) {
+                persona=s;
+            }
+            
+        }
+        ListaSimple roles = Utilies.busquedaSecuencial(rol.listar(),persona, atributo);        
         if (roles.tamano() > 0) {
-            return (Rol) roles.busquedaBinaria(dato, atributo);
+            return (Rol) roles.obtenerPorPosicion(0);
         } else {
             return null;
         }

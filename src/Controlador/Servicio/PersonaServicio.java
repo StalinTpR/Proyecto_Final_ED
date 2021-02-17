@@ -7,6 +7,7 @@ package Controlador.Servicio;
 
 import Controlador.Dao.PersonaDao;
 import Controlador.ListaSimple;
+import Controlador.Utilies;
 import Modelo.Persona;
 
 /**
@@ -21,6 +22,7 @@ public class PersonaServicio {
     public static String EXTERNAL = "external_id";
     public static String IDENTIFICADOR = "id";
     private PersonaDao obj = new PersonaDao();
+    private PersonaDao per = new PersonaDao();
 
     public Persona getPersona() {
         return obj.getPersona();
@@ -42,10 +44,19 @@ public class PersonaServicio {
         return obj.ordenar(obj.listar(), tipo, atributo);
     }
 
-    public Persona buscar(String dato, String atributo) {
-        ListaSimple personas = personasOrdenar(ListaSimple.ORDENAR_ASCENDENTE, atributo);
-        if (personas.tamano() > 0) {
-            return (Persona) personas.busquedaBinaria(dato, atributo);
+    public Persona buscar(Long dato, String atributo) {
+        ListaSimple lista = per.listar();
+        Persona persona = null;
+        for (int i = 0; i < lista.tamano(); i++) {
+            Persona s = (Persona) lista.obtenerPorPosicion(i);
+            if (s.getId()==dato) {
+                persona=s;
+            }            
+        }
+        ListaSimple listaPersonas = Utilies.busquedaSecuencial(per.listar(),persona, "cedula");     
+        if (listaPersonas.tamano() > 0) {
+            Persona f = (Persona) listaPersonas.obtenerPorPosicion(0);
+            return f;
         } else {
             return null;
         }

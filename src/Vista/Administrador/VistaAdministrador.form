@@ -1085,9 +1085,6 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtNombreCita">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField1"/>
-                      </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel20">
                       <Properties>
@@ -1195,9 +1192,6 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="CedBusqueda">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField1"/>
-                      </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton2">
                       <Properties>

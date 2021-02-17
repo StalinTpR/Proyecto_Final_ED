@@ -92,6 +92,7 @@ public class ListaSimple {
         return cont;    
     }
     
+    
     public boolean existeCliente(Object c){
         boolean existe=false;
         if (!estaVacio()) {
@@ -200,6 +201,7 @@ public class ListaSimple {
         }
         return null;
     }
+     
 
     public ListaSimple ordenar(ListaSimple estudiantes, int tipo_ordenacion, String parametro) {
         estudiantes.ordenar(tipo_ordenacion, parametro);
@@ -229,5 +231,6 @@ public class ListaSimple {
         }
 
     }
+   
 
 }
