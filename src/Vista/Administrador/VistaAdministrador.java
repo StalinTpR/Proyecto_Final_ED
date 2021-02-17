@@ -1186,6 +1186,12 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
         jLabel18.setText("Nombre del departamento:");
 
+        txtDep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDepActionPerformed(evt);
+            }
+        });
+
         jButton3.setText("Añadir Departamento");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1353,6 +1359,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    if(txtNombre.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtClave.getText().isEmpty() || txtApellido.getText().isEmpty() || txtCedula.getText().isEmpty() || txtDireccion.getText().isEmpty()){
+        JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+    }else{
         if (txtNombre.getText().length() > 0 && txtCedula.getText().length() > 0 && txtDireccion.getText().length() > 0 && txtApellido.getText().length() > 0) {
             Persona people = new Persona();
             people.setNombres(txtNombre.getText());
@@ -1388,9 +1397,13 @@ public class VistaAdministrador extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Llenar los campos");
         }
         cargarTablaPersona();
+    }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        if (txtNombre.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtClave.getText().isEmpty() || txtApellido.getText().isEmpty() || txtCedula.getText().isEmpty() || txtDireccion.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
         Persona st = (Persona) per.Dato(jTable1.getSelectedRow());
         Cuenta ct = (Cuenta) cuenta.Dato(jTable1.getSelectedRow());
         st.setNombres(txtNombre.getText());
@@ -1410,6 +1423,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
         cargarTablaPersona();
+        }
+        
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -1463,6 +1478,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+    if(txtEspecialidadES.getText().isEmpty()){
+        JOptionPane.showMessageDialog(null, "Escriba el nombre de la especialidad", "Error", JOptionPane.ERROR_MESSAGE);
+    }else{
         Departamento departa = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
         Especialidad especialidad = new Especialidad();
         System.out.println(departa.getEsp().length);
@@ -1494,9 +1512,13 @@ public class VistaAdministrador extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
+       }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void btnModificarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarEspActionPerformed
+        if(txtEspecialidadES.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "Escriba el nombre de la especialidad", "Error", JOptionPane.ERROR_MESSAGE);  
+        }else{
         Departamento departamento = (Departamento) dep.Dato(cbxDepEs.getSelectedIndex());
         for (int i = 0; i < departamento.getEsp().length; i++) {
             if (i == jTableEspecialidad.getSelectedRow()) {
@@ -1508,6 +1530,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
     }//GEN-LAST:event_btnModificarEspActionPerformed
 
     private void btnEliminarEspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEspActionPerformed
@@ -1611,6 +1634,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    if(txtDep.getText().isEmpty()){
+        JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+    }else{
         Departamento departamento = new Departamento();
         departamento.setNombre(txtDep.getText());
         departamento.setEsp(new Especialidad[0]);
@@ -1618,6 +1644,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
         dep.guardar();
         dep.setDepartamento(null);
         CargarVDep();
+    } 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
@@ -1657,6 +1684,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxEspCitaActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        if (txtDep.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
         ListaSimple lista = dep.listar();
         Departamento departamento = (Departamento) dep.Dato(jList1.getSelectedIndex());
         departamento.setNombre(txtDep.getText());
@@ -1665,6 +1695,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }
+
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void ComboBoxDepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxDepActionPerformed
@@ -1685,6 +1717,10 @@ public class VistaAdministrador extends javax.swing.JFrame {
             cbxEspCita.addItem(depEsp.getEsp()[i].getNombre());
         }
     }//GEN-LAST:event_cbxDepCitaActionPerformed
+
+    private void txtDepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDepActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDepActionPerformed
 
     /**
      * @param args the command line arguments
