@@ -3,16 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Controlador;
+
+
+
 
 /**
  *
  * @author Stalin Jimenez
  */
 public class Nodo {
+
     private Object dato;
     private Nodo sig;
-    
+
     public Nodo() {
         dato = null;
         sig = null;
@@ -22,9 +27,7 @@ public class Nodo {
         this.dato = dato;
         this.sig = sig;
     }
-    
-    
-    
+
     public Object getDato() {
         return dato;
     }
