@@ -10,16 +10,10 @@ package Modelo;
  * @author Stalin Jimenez
  */
 public class RecetaMedica {
-     private Long id;
+     
      private Medicamento[] s;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    
 
     public Medicamento[] getS() {
         return s;
@@ -27,6 +21,14 @@ public class RecetaMedica {
 
     public void setS(Medicamento[] s) {
         this.s = s;
+    }
+
+    @Override
+    public String toString() {
+        for (int i = 0; i < s.length; i++) {
+            return s[i].getNombre(); 
+        }
+         return null;        
     }
      
 }

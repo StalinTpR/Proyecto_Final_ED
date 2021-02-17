@@ -20,7 +20,7 @@ public class RolServicio {
 
     public static String IDENTIFICADOR = "id";
     public static String NOMBRE = "nombre";
-    private RolDao rol ;
+    private RolDao rol = new RolDao();
 
     private RolDao obj = new RolDao();
 
@@ -37,20 +37,20 @@ public class RolServicio {
     }
 
     public Rol buscar(Long dato, String atributo) {
+        rol.crearRoles();
         ListaSimple lista = rol.listar();
-        Rol persona = null;
+        Rol roles = null;
         for (int i = 0; i < lista.tamano(); i++) {
             Rol s = (Rol) lista.obtenerPorPosicion(i);
             if (s.getId()==dato) {
-                persona=s;
-            }
-            
+                roles=s;
+            }            
         }
-        ListaSimple roles = Utilies.busquedaSecuencial(rol.listar(),persona, atributo);        
-        if (roles.tamano() > 0) {
-            return (Rol) roles.obtenerPorPosicion(0);
-        } else {
+        ListaSimple listaRoles = Utilies.busquedaSecuencial(lista,roles,"nombre");        
+        if(listaRoles.tamano() > 0) {
+            Rol d=(Rol) listaRoles.obtenerPorPosicion(0);
+            return d;
+        } else
             return null;
-        }
     }
 }

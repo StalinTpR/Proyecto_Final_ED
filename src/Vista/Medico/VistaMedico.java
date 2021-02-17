@@ -12,11 +12,17 @@ import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
 import Controlador.Servicio.PersonaServicio;
+import Controlador.Utilies;
 import Modelo.CitaMedica;
+import Modelo.Consulta;
 import Modelo.Cuenta;
 import Modelo.Departamento;
+import Modelo.Diagnostico;
+import Modelo.Enfermedad;
 import Modelo.Especialidad;
+import Modelo.Medicamento;
 import Modelo.Persona;
+import Modelo.RecetaMedica;
 import Modelo.Rol;
 import Vista.Login;
 import Vista.Sesion;
@@ -39,8 +45,9 @@ public class VistaMedico extends javax.swing.JFrame {
     private PersonaDao per = new PersonaDao();
     private Persona PerEnc;
     private Login sesion = new Login();
-    private Persona Doctor =sesion.s.getPersona();
+    private Persona Doctor = sesion.s.getPersona();
     private TablaCitas Modelocitas = new TablaCitas();
+    private Medicamento[] medicamentos;
 
     /**
      * Creates new form VistaAdministrador
@@ -51,7 +58,7 @@ public class VistaMedico extends javax.swing.JFrame {
     CardLayout cardLayout;
 
     public VistaMedico() {
-        initComponents();        
+        initComponents();
         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
@@ -60,16 +67,25 @@ public class VistaMedico extends javax.swing.JFrame {
         PNavP.setBackground(color4);
         PNavC.setBackground(color5);
     }
+
     public Persona buscarPaciente() {
         ListaSimple lista = per.listar();
         return (Persona) lista.obtenerPorPosicion(lista.buscarindice(PerEnc));
     }
-    public void CargarTablaCitas(){
+
+    public void CargarTablaCitas() {
         ListaSimple lista = per.listar();
         Persona Doc = (Persona) lista.obtenerPorPosicion(lista.buscarindice(Doctor));
         Modelocitas.setSd(Doc.getCitas());
         jTable1.setModel(Modelocitas);
         jTable1.updateUI();
+    }
+
+    public CitaMedica SacarCita() {
+        ListaSimple lista = per.listar();
+        Persona Doc = (Persona) lista.obtenerPorPosicion(lista.buscarindice(Doctor));
+        CitaMedica CitaR = Doc.getCitas()[jTable1.getSelectedRow()];
+        return CitaR;
     }
 
     /**
@@ -118,7 +134,21 @@ public class VistaMedico extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtEnfermedad = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtGravedad = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        txtMedicamento = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        TxtDosis = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtAreaObservaciones = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -506,10 +536,7 @@ public class VistaMedico extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -517,10 +544,112 @@ public class VistaMedico extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel3.setText("Enfermedad:");
+
+        jLabel8.setText("Gravedad");
+
+        jButton3.setText("Agregar Medicamento");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Medicamento:");
+
+        jLabel10.setText("Dosis:");
+
+        jLabel11.setText("Observaciones:");
+
+        txtAreaObservaciones.setColumns(20);
+        txtAreaObservaciones.setRows(5);
+        jScrollPane2.setViewportView(txtAreaObservaciones);
+
         jButton1.setText("Realizado");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtMedicamento, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jLabel10)
+                                    .addGap(63, 63, 63)
+                                    .addComponent(TxtDosis))
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addGap(98, 98, 98)
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtEnfermedad, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtGravedad, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton3)
+                        .addGap(153, 153, 153))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtEnfermedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtGravedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtMedicamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(TxtDosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(33, 33, 33))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        jButton5.setText("VerInformacion");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -530,22 +659,26 @@ public class VistaMedico extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addGap(37, 37, 37)
+                .addComponent(jButton5)
+                .addContainerGap(284, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(59, 59, 59)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelDLayout = new javax.swing.GroupLayout(panelD);
@@ -557,7 +690,7 @@ public class VistaMedico extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4537, Short.MAX_VALUE))
+                .addGap(0, 4335, Short.MAX_VALUE))
         );
         panelDLayout.setVerticalGroup(
             panelDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -569,7 +702,7 @@ public class VistaMedico extends javax.swing.JFrame {
                     .addGroup(panelDLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         contenedor.add(panelD, "panelD");
@@ -637,11 +770,15 @@ public class VistaMedico extends javax.swing.JFrame {
 
     private void btnDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDActionPerformed
         cardLayout.show(contenedor, "panelD");
+        if (Doctor != null) {
+            CargarTablaCitas();
+        }
+
     }//GEN-LAST:event_btnDActionPerformed
 
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
         cardLayout.show(contenedor, "panelC");
-        CargarTablaCitas();
+
 
     }//GEN-LAST:event_btnCActionPerformed
 
@@ -662,13 +799,16 @@ public class VistaMedico extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ListaSimple listaPersonas = per.listar();
-        PerEnc = (Persona) listaPersonas.busquedaBinaria(CedBusqueda.getText(), "cedula");
-        if (per != null) {
-            System.out.println("-----------Encontrado--------");
-            RtaNombre.setText(PerEnc.getNombres());
-            RtaApellido.setText(PerEnc.getApellidos());
-            RtaDir.setText(PerEnc.getDireccion());
+        ListaSimple lista = per.listar();
+        ListaSimple listaPersonas = Utilies.busquedaSecuencial(per.listar(), per.Dato(lista.buscarString(CedBusqueda.getText())), "cedula");
+        PerEnc = (Persona) listaPersonas.obtenerPorPosicion(0);
+        if (PerEnc != null) {
+            if (PerEnc.getId_rol() == 3) {
+                System.out.println("-----------Encontrado--------");
+                RtaNombre.setText(PerEnc.getNombres());
+                RtaApellido.setText(PerEnc.getApellidos());
+                RtaDir.setText(PerEnc.getDireccion());
+            }
         } else {
             System.out.println("----------No------------");
         }
@@ -688,7 +828,7 @@ public class VistaMedico extends javax.swing.JFrame {
                 nuevacita.setTipoCita(txtNombreCita.getText());
                 nuevacita.setEstado(false);
                 ListaSimple listaPersonas = per.listar();
-                Persona doctor = (Persona) Doctor;
+                Persona doctor = (Persona) listaPersonas.obtenerPorPosicion(listaPersonas.buscarindice(doc));
                 CitaMedica[] cita = doctor.getCitas();
                 CitaMedica[] temCitas = new CitaMedica[doctor.getCitas().length + 1];
                 int cont = 0;
@@ -742,8 +882,123 @@ public class VistaMedico extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (txtAreaObservaciones.getText().length() > 0 && txtEnfermedad.getText().length() > 0 && txtNombreCita.getText().length() > 0
+                && txtGravedad.getText().length() > 0) {
+            Diagnostico diag = new Diagnostico();
+            Enfermedad enfermedad = new Enfermedad();
+            enfermedad.setNombre(txtEnfermedad.getText());
+            enfermedad.setGravedad(txtGravedad.getText());
+            diag.setIdEnfermedad(enfermedad);
+            RecetaMedica receta = new RecetaMedica();
+            receta.setS(medicamentos);
+            diag.setIdRecetaMedica(receta);
+            diag.setObservaciones(txtAreaObservaciones.getText());
+            Consulta consulta = new Consulta();
+            consulta.setDia(diag);
+            consulta.setCita(SacarCita());
+            ListaSimple lista = per.listar();
+            Persona paciente = (Persona) per.Dato(lista.buscarindice(SacarCita().getPaciente()));
+            Consulta[] consultas = paciente.getHistoria().getS();
+            Consulta[] temconsultas = new Consulta[paciente.getHistoria().getS().length + 1];
+            int cont = 0;
+            for (int i = 0; i < temconsultas.length; i++) {
+                if (cont == i && i + 1 < temconsultas.length) {
+                    if (consultas.length == 0) {
+                        temconsultas[i] = consulta;
+                        break;
+                    }
+                    temconsultas[i] = consultas[i];
+                    cont++;
+                } else {
+                    temconsultas[i] = consulta;
+                }
+            }
+            paciente.getHistoria().setS(temconsultas);
+            try {
+                per.modificar(paciente, lista.buscarindice(paciente));
+                medicamentos = null;
+                limpiarMedicamentos();
+            } catch (Exception ex) {
+                Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Llenar los campos requeridos");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+    public void limpiarMedicamentos() {
+        txtMedicamento.setText("");
+        TxtDosis.setText("");
+    }
+
+    public void limpiarTodo() {
+        txtAreaObservaciones.setText("");
+        txtEnfermedad.setText("");
+        txtNombreCita.setText("");
+        txtGravedad.setText("");
+        limpiarMedicamentos();
+    }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (txtMedicamento.getText().length() > 0 && TxtDosis.getText().length() > 0) {
+            Medicamento medica = new Medicamento();
+            medica.setNombre(txtMedicamento.getText());
+            medica.setCantidad(Integer.parseInt(TxtDosis.getText()));
+
+            if (medicamentos != null) {
+                MedicamentosCarga(medica, medicamentos);
+                limpiarMedicamentos();
+            } else {
+                int cont = 1;
+                Medicamento[] medicamento = new Medicamento[cont];
+                int cont1 = cont - 1;
+                medicamento[cont1] = medica;
+                medicamentos = medicamento;
+                limpiarMedicamentos();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "LLenar los campos de medicamento");
+        }
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (jTable1.getSelectedRow() > -1) {
+            ListaSimple lista = per.listar();
+            CitaMedica cita = SacarCita();
+            Persona lol = (Persona) lista.obtenerPorPosicion(lista.buscarindice(cita.getPaciente()));
+            for (int i = 0; i < lol.getHistoria().getS().length; i++) {
+                if (lol.getHistoria().getS()[i].getCita().getFecha().equals(lol.getCitas()[jTable1.getSelectedRow()].getFecha())) {
+                    Consulta consulta = lol.getHistoria().getS()[i];
+                    JOptionPane.showMessageDialog(null, "Resultado de la busqueda\n"
+                            + "Enfermedad:" + consulta.getDia().getIdEnfermedad().getNombre()
+                            + "\nMedicamentos:" + consulta.getDia().getIdRecetaMedica().toString()
+                            + "\nObservaciones:" + consulta.getDia().getObservaciones()
+                            + "\nGravedad:" + consulta.getDia().getIdEnfermedad().getGravedad()
+                            + "\nDoctor:" + consulta.getCita().getDoc().getNombres(),
+                            "Atencion", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Escoger un elemento de la tabla");
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+    public void MedicamentosCarga(Medicamento m, Medicamento[] s) {
+        Medicamento[] medicamento = new Medicamento[s.length];
+        int cont = 0;
+        for (int i = 0; i < medicamento.length; i++) {
+            if (cont == i && i + 1 < medicamento.length) {
+                if (s.length == 0) {
+                    medicamento[i] = m;
+                    break;
+                }
+                medicamento[i] = s[i];
+                cont++;
+            } else {
+                medicamento[i] = m;
+            }
+        }
+        medicamentos = medicamento;
+    }
 
     /**
      * @param args the command line arguments
@@ -791,6 +1046,7 @@ public class VistaMedico extends javax.swing.JFrame {
     private javax.swing.JLabel RtaApellido;
     private javax.swing.JLabel RtaDir;
     private javax.swing.JLabel RtaNombre;
+    private javax.swing.JTextField TxtDosis;
     private javax.swing.JButton btnC;
     private javax.swing.JButton btnD;
     private javax.swing.JPanel contenedor;
@@ -799,26 +1055,39 @@ public class VistaMedico extends javax.swing.JFrame {
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel panelC;
     private javax.swing.JPanel panelD;
+    private javax.swing.JTextArea txtAreaObservaciones;
+    private javax.swing.JTextField txtEnfermedad;
+    private javax.swing.JTextField txtGravedad;
+    private javax.swing.JTextField txtMedicamento;
     private javax.swing.JTextField txtNombreCita;
     // End of variables declaration//GEN-END:variables
 

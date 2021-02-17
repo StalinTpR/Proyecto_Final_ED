@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista.Medico;
+package Vista.Paciente;
 
 import Modelo.CitaMedica;
 import javax.swing.table.AbstractTableModel;
@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Stalin Jimenez
  */
-public class TablaCitas extends AbstractTableModel{
+public class TablaCitasPaciente extends AbstractTableModel{
     private CitaMedica[] sd;
 
     public CitaMedica[] getSd() {
@@ -34,7 +34,7 @@ public class TablaCitas extends AbstractTableModel{
         return 4;
     }
 
-   @Override
+    @Override
     public Object getValueAt(int i, int j) {
         CitaMedica cita = sd[i];
         switch(j){

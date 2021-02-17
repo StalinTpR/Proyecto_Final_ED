@@ -10,17 +10,11 @@ package Modelo;
  * @author Stalin Jimenez
  */
 public class Enfermedad {
-    private Long id;
+    
     private String Nombre;
     private String gravedad;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    
 
     public String getNombre() {
         return Nombre;

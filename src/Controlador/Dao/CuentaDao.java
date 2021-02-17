@@ -12,7 +12,8 @@ import Modelo.Cuenta;
  *
  * @author Stalin Jimenez
  */
-public class CuentaDao extends AdaptadorDao{
+public class CuentaDao extends AdaptadorDao {
+
     private Cuenta cuenta;
     
     public CuentaDao() {
@@ -54,5 +55,5 @@ public class CuentaDao extends AdaptadorDao{
                 cuenta = null;            
         }
         return cuenta;
-    }    
+    }
 }

@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
  * @author uwu
  */
 public class Login extends javax.swing.JFrame {
+
     public static RolDao rol = new RolDao();
     public static RolServicio rs = new RolServicio();
     public static CuentaServicio cs = new CuentaServicio();
@@ -57,7 +58,7 @@ public class Login extends javax.swing.JFrame {
             if (s.getCuenta().getEstado()) {
                 s.cargarDatos();
                 if (s.getRol().getNombre().equals("Administrador")) {
-                    new VistaAdministrador().setVisible(true);
+                    new VistaAdministrador().setVisible(true);                    
                     this.dispose();
                 }
                 if (s.getRol().getNombre().equals("Doctor")) {

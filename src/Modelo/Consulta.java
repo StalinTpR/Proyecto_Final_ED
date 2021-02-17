@@ -11,18 +11,12 @@ package Modelo;
  */
 public class Consulta {
 
-    private Long id;
+    
     private Diagnostico dia;
     private CitaMedica cita;
-    private boolean estado;
+    
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+   
 
     public Diagnostico getDia() {
         return dia;
@@ -40,13 +34,7 @@ public class Consulta {
         this.cita = cita;
     }
 
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
+    
 
     
 

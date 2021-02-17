@@ -13,6 +13,7 @@ import Controlador.Dao.PersonaDao;
 import Controlador.Dao.RolDao;
 import Controlador.ListaSimple;
 import Controlador.Servicio.PersonaServicio;
+import Modelo.Consulta;
 import Modelo.Cuenta;
 import Modelo.Departamento;
 import Modelo.Especialidad;
@@ -28,6 +29,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,14 +37,11 @@ import javax.swing.JComboBox;
  */
 public class VistaPaciente extends javax.swing.JFrame {
 
-    public static RolDao rol = new RolDao();
-    private CuentaDao cuenta = new CuentaDao();
     private PersonaDao per = new PersonaDao();
-    private ListaSimple s = rol.ordenar();
-    private TablaPersona modelPersona = new TablaPersona();
-    private DepartamentoDao dep = new DepartamentoDao();
-    private TablaEspecialidad modelEspecialidad = new TablaEspecialidad();
     private Persona PerEnc;
+    private Login sesion = new Login();
+    private Persona paciente = sesion.s.getPersona();
+    private TablaCitasPaciente modelo = new TablaCitasPaciente();
 
     /**
      * Creates new form VistaAdministrador
@@ -54,8 +53,7 @@ public class VistaPaciente extends javax.swing.JFrame {
 
     public VistaPaciente() {
         initComponents();
-//        cargar();
-//        CargarVDep();
+        CargarTabla();
         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
@@ -67,20 +65,12 @@ public class VistaPaciente extends javax.swing.JFrame {
         PNavC.setBackground(color5);
     }
 
-//    public void cargar() {
-//        cbxTipo.removeAllItems();
-//        int cont = s.tamano() - 1;
-//        for (int i = 0; i < s.tamano(); i++) {
-//            Rol s1 = (Rol) rol.Dato(cont);
-//            cbxTipo.addItem(s1.getNombre());
-//            cont--;
-//        }
-//        CargarCbxDep(ComboBoxDep,ComboBoxEsp);
-//        modelPersona.setS(per.listar());
-//        jTable1.setModel(modelPersona);
-//        jTable1.updateUI();
-//
-//    }
+    public void CargarTabla() {
+        modelo.setSd(paciente.getCitas());
+        jTable1.setModel(modelo);
+        jTable1.updateUI();
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,6 +100,7 @@ public class VistaPaciente extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -330,21 +321,35 @@ public class VistaPaciente extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setText("Información");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(353, 353, 353)
+                        .addComponent(jButton1)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(jButton1)
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelDLayout = new javax.swing.GroupLayout(panelD);
@@ -442,6 +447,24 @@ public class VistaPaciente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ListaSimple lista = per.listar();
+        Persona lol = (Persona) lista.obtenerPorPosicion(lista.buscarindice(paciente));
+        for (int i = 0; i < lol.getHistoria().getS().length; i++) {
+            if (lol.getHistoria().getS()[i].getCita().getFecha().equals(lol.getCitas()[jTable1.getSelectedRow()].getFecha())) {
+                Consulta consulta = lol.getHistoria().getS()[i];
+                JOptionPane.showMessageDialog(null, "Resultado de la busqueda\n"
+                        + "Enfermedad:" + consulta.getDia().getIdEnfermedad().getNombre()
+                        + "\nMedicamentos:" + consulta.getDia().getIdRecetaMedica().toString()
+                        + "\nObservaciones:" + consulta.getDia().getObservaciones()
+                        + "\nGravedad:" + consulta.getDia().getIdEnfermedad().getGravedad()
+                        + "\nDoctor:" + consulta.getCita().getDoc().getNombres(),
+                        "Atencion", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -487,6 +510,7 @@ public class VistaPaciente extends javax.swing.JFrame {
     private javax.swing.JPanel PNavP;
     private javax.swing.JButton btnD;
     private javax.swing.JPanel contenedor;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;

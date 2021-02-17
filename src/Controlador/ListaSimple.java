@@ -91,6 +91,20 @@ public class ListaSimple {
         }
         return cont;    
     }
+    public int buscarString(String c){
+        int cont = 0;
+        if (!estaVacio()) {
+            Nodo tmp = cabecera;
+            while(tmp != null){
+                if (tmp.getDato().toString().equals(c)) {
+                    return cont;                    
+                }
+                tmp = tmp.getSig();
+                cont++;
+            }
+        }
+        return cont;    
+    }
     
     
     public boolean existeCliente(Object c){

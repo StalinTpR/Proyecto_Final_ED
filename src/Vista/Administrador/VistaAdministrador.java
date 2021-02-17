@@ -13,9 +13,11 @@ import Controlador.ListaSimple;
 import Controlador.Servicio.PersonaServicio;
 import Controlador.Utilies;
 import Modelo.CitaMedica;
+import Modelo.Consulta;
 import Modelo.Cuenta;
 import Modelo.Departamento;
 import Modelo.Especialidad;
+import Modelo.HistoriaClinica;
 import Modelo.Persona;
 import Modelo.Rol;
 import Vista.Login;
@@ -75,7 +77,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
             cbxTipo.addItem(s1.getNombre());
             cont--;
         }
-        CargarCbxDep(ComboBoxDep, ComboBoxEsp);
+        CargarCbxDep(ComboBoxDep);
         cargarTablaPersona();
 
     }
@@ -86,17 +88,12 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jTable1.updateUI();
     }
 
-    public void CargarCbxDep(JComboBox cbxa, JComboBox cbxb) {
+    public void CargarCbxDep(JComboBox cbxa) {
         cbxa.removeAllItems();
-        cbxb.removeAllItems();
         ListaSimple listaDep = dep.listar();
         for (int i = 0; i < listaDep.tamano(); i++) {
             Departamento departa = (Departamento) listaDep.obtenerPorPosicion(i);
             cbxa.addItem(departa.getNombre());
-        }
-        Departamento depEsp = (Departamento) listaDep.obtenerPorPosicion(cbxa.getSelectedIndex());
-        for (int i = 0; i < depEsp.getEsp().length; i++) {
-            cbxb.addItem(depEsp.getEsp()[i].getNombre());
         }
     }
 
@@ -118,11 +115,15 @@ public class VistaAdministrador extends javax.swing.JFrame {
             Departamento departa = (Departamento) listaDep.obtenerPorPosicion(i);
             cbxDepEs.addItem(departa.getNombre());
         }
+
+    }
+
+    public void CargarTablaEspecialidad() {
+        ListaSimple listaDep = dep.listar();
         Departamento dep = (Departamento) listaDep.obtenerPorPosicion(cbxDepEs.getSelectedIndex());
         modelEspecialidad.setEsp(dep.getEsp());
         jTableEspecialidad.setModel(modelEspecialidad);
         jTableEspecialidad.updateUI();
-
     }
 
     public Persona buscarPaciente() {
@@ -131,7 +132,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }
 
     public void CargarVCita() {
-        CargarCbxDep(cbxDepCita, cbxEspCita);
+        CargarCbxDep(cbxDepCita);
     }
 
     public Persona SacarDoctor(int pos) {
@@ -542,6 +543,12 @@ public class VistaAdministrador extends javax.swing.JFrame {
         panelE.setName("panelE"); // NOI18N
 
         jLabel19.setText("Nom. Especialidad:");
+
+        txtEspecialidadES.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEspecialidadESActionPerformed(evt);
+            }
+        });
 
         jButton13.setText("Agregar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -1354,7 +1361,14 @@ public class VistaAdministrador extends javax.swing.JFrame {
         cardLayout.show(contenedor, "panelC");
         CargarVCita();
     }//GEN-LAST:event_btnCActionPerformed
-
+    public void limpiarUsuario() {
+        txtApellido.setText("");
+        txtCedula.setText("");
+        txtClave.setText("");
+        txtDireccion.setText("");
+        txtUsuario.setText("");
+        txtNombre.setText("");
+    }
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if (txtNombre.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtClave.getText().isEmpty() || txtApellido.getText().isEmpty() || txtCedula.getText().isEmpty() || txtDireccion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1378,6 +1392,12 @@ public class VistaAdministrador extends javax.swing.JFrame {
                     CitaMedica[] citas = new CitaMedica[0];
                     people.setCitas(citas);
                 }
+                if (cbxTipo.getSelectedIndex() == 2) {
+                    HistoriaClinica historia = new HistoriaClinica();
+                    Consulta[] consulta = new Consulta[0];
+                    people.setHistoria(historia);
+                    people.getHistoria().setS(consulta);
+                }
                 per.setPersona(people);
                 per.guardar();
                 Cuenta ncuenta = new Cuenta();
@@ -1388,6 +1408,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 ncuenta.setExternal_id(UUID.randomUUID().toString());
                 cuenta.setCuenta(ncuenta);
                 cuenta.guardar();
+                limpiarUsuario();
                 cuenta.setCuenta(null);
                 per.setPersona(null);
             } else {
@@ -1416,6 +1437,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
             }
             try {
                 cuenta.modificar(ct, jTable1.getSelectedRow());
+                limpiarUsuario();
             } catch (Exception ex) {
                 Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1428,6 +1450,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         try {
             per.eliminar(jTable1.getSelectedRow());
+            cuenta.eliminar(jTable1.getSelectedRow());
             cargarTablaPersona();
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
@@ -1506,6 +1529,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
             departa.setEsp(tem);
             try {
                 dep.modificar(departa, cbxDepEs.getSelectedIndex());
+                CargarTablaEspecialidad();
             } catch (Exception ex) {
                 Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1524,6 +1548,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
             }
             try {
                 dep.modificar(departamento, cbxDepEs.getSelectedIndex());
+                CargarTablaEspecialidad();
             } catch (Exception ex) {
                 Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1545,6 +1570,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
             departamento.setEsp(temporal);
             try {
                 dep.modificar(departamento, cbxDepEs.getSelectedIndex());
+                CargarTablaEspecialidad();
             } catch (Exception ex) {
                 Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1556,12 +1582,16 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarEspActionPerformed
 
     private void cbxDepEsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDepEsActionPerformed
-        // TODO add your handling code here:
+        ListaSimple lista = dep.listar();
+        if (!lista.estaVacio()) {
+            CargarTablaEspecialidad();
+        }
     }//GEN-LAST:event_cbxDepEsActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ListaSimple listaPersonas = Utilies.busquedaSecuencial(per.listar(),per.Dato(1), "cedula");        
-        PerEnc = (Persona) listaPersonas.busquedaBinaria(CedBusqueda.getText(), "cedula");
+        ListaSimple lista = per.listar();
+        ListaSimple listaPersonas = Utilies.busquedaSecuencial(per.listar(), per.Dato(lista.buscarString(CedBusqueda.getText())), "cedula");
+        PerEnc = (Persona) listaPersonas.obtenerPorPosicion(0);
         if (PerEnc != null) {
             if (PerEnc.getId_rol() == 3) {
                 System.out.println("-----------Encontrado--------");
@@ -1575,7 +1605,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if (txtNombreCita.getText().length()>0) {
+        if (txtNombreCita.getText().length() > 0) {
             if (PerEnc != null) {
                 CitaMedica nuevacita = new CitaMedica();
                 Persona PacienteC = PerEnc;
@@ -1645,13 +1675,14 @@ public class VistaAdministrador extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (txtDep.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);            
         } else {
             Departamento departamento = new Departamento();
             departamento.setNombre(txtDep.getText());
             departamento.setEsp(new Especialidad[0]);
             dep.setDepartamento(departamento);
             dep.guardar();
+            txtDep.setText("");
             dep.setDepartamento(null);
             CargarVDep();
         }
@@ -1660,6 +1691,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         try {
             dep.eliminar(jList1.getSelectedIndex());
+            CargarVDep();
         } catch (Exception ex) {
             Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1702,6 +1734,8 @@ public class VistaAdministrador extends javax.swing.JFrame {
             departamento.setNombre(txtDep.getText());
             try {
                 dep.modificar(departamento, jList1.getSelectedIndex());
+                CargarVDep();
+                txtDep.setText("");
             } catch (Exception ex) {
                 Logger.getLogger(VistaAdministrador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1731,6 +1765,10 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private void txtDepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDepActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDepActionPerformed
+
+    private void txtEspecialidadESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEspecialidadESActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEspecialidadESActionPerformed
 
     /**
      * @param args the command line arguments

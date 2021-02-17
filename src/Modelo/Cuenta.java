@@ -64,4 +64,9 @@ public class Cuenta {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return usuario;
+    }
 }
