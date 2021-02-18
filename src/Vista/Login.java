@@ -12,6 +12,7 @@ import Vista.Administrador.VistaAdministrador;
 import Vista.Medico.VistaMedico;
 import Vista.Paciente.VistaPaciente;
 import fonts.Fuentes;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -37,17 +38,16 @@ public class Login extends javax.swing.JFrame {
     int mousepY;
     TextPrompt tp;
     Fuentes f = new Fuentes();
-
+    
+    CardLayout cardLayout;
     public Login() {
         initComponents();
         rs.crearRoles();
         this.setLocationRelativeTo(null);
         tp = new TextPrompt("Usuario", txtUsuario);
         tp = new TextPrompt("Contraseña", txtC);
-
-        //Grupo de Botones
-        //labels
-        //jLabel1.setFont(f.fuente("Montserrat-Medium.ttf", ERROR, 14));
+        
+         cardLayout = (CardLayout) (contenedor.getLayout());
     }
 
     private void inicioSesion() {
@@ -71,11 +71,12 @@ public class Login extends javax.swing.JFrame {
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "Cuenta no activa", "Error", JOptionPane.ERROR_MESSAGE);
+                cardLayout.show(contenedor, "panelA3");
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+            cardLayout.show(contenedor, "panelA1");
+
         }
     }
 
@@ -98,11 +99,30 @@ public class Login extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        contenedor = new javax.swing.JPanel();
+        panelA = new javax.swing.JPanel();
+        panelA1 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        panelA2 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        panelA3 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -114,7 +134,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("UNL");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, 110, 50));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 110, 50));
 
         txtUsuario.setBackground(new java.awt.Color(104, 108, 128));
         txtUsuario.setForeground(new java.awt.Color(255, 255, 255));
@@ -150,7 +170,7 @@ public class Login extends javax.swing.JFrame {
         btnIniciar.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciar.setText("Iniciar");
         btnIniciar.setBorder(null);
-        btnIniciar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnIniciar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIniciar.setFocusPainted(false);
         btnIniciar.setFocusable(false);
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +178,7 @@ public class Login extends javax.swing.JFrame {
                 btnIniciarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 350, 40));
+        jPanel1.add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 350, 40));
 
         jPanel5.setBackground(new java.awt.Color(89, 92, 110));
         jPanel5.setPreferredSize(new java.awt.Dimension(300, 3));
@@ -212,10 +232,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nacional");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, -1, -1));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/REC1UNU.png"))); // NOI18N
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 270, 360, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, -1, -1));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -228,18 +245,18 @@ public class Login extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 2, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 2, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("de Loja");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, -1, -1));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Universidad");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, -1, -1));
 
         btnExit.setBackground(new java.awt.Color(89, 92, 110));
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/unax.png"))); // NOI18N
@@ -258,6 +275,98 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 50, 25));
 
+        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\usericon.png")); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 279, 30, 40));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\keys.png")); // NOI18N
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/REC1UNU.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 270, 360, -1));
+
+        contenedor.setBackground(new java.awt.Color(89, 92, 110));
+        contenedor.setLayout(new java.awt.CardLayout());
+
+        panelA.setBackground(new java.awt.Color(89, 92, 110));
+
+        javax.swing.GroupLayout panelALayout = new javax.swing.GroupLayout(panelA);
+        panelA.setLayout(panelALayout);
+        panelALayout.setHorizontalGroup(
+            panelALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 390, Short.MAX_VALUE)
+        );
+        panelALayout.setVerticalGroup(
+            panelALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 130, Short.MAX_VALUE)
+        );
+
+        contenedor.add(panelA, "panelA");
+
+        panelA1.setBackground(new java.awt.Color(89, 92, 110));
+        panelA1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel10.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\alert.png")); // NOI18N
+        panelA1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, 30));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Error");
+        panelA1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 50, -1));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("El usuario ingresado no existe");
+        panelA1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, -1, -1));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\messange.png")); // NOI18N
+        panelA1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 16, 340, 80));
+
+        contenedor.add(panelA1, "panelA1");
+
+        panelA2.setBackground(new java.awt.Color(89, 92, 110));
+        panelA2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\alert.png")); // NOI18N
+        panelA2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, 30));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Error");
+        panelA2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 50, -1));
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Faltan datos por agregar");
+        panelA2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, -1, -1));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\messange.png")); // NOI18N
+        panelA2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 16, 340, 80));
+
+        contenedor.add(panelA2, "panelA2");
+
+        panelA3.setBackground(new java.awt.Color(89, 92, 110));
+        panelA3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel16.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\alert.png")); // NOI18N
+        panelA3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, 30));
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Error");
+        panelA3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 50, -1));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Faltan datos por agregar");
+        panelA3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, -1, -1));
+
+        jLabel19.setIcon(new javax.swing.ImageIcon("C:\\Users\\uwu\\Documents\\GitHub\\Proyecto_Final_ED\\src\\img\\messange.png")); // NOI18N
+        panelA3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(27, 16, 340, 80));
+
+        contenedor.add(panelA3, "panelA3");
+
+        jPanel1.add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 390, 130));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -268,16 +377,16 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(410, 650));
+        setSize(new java.awt.Dimension(410, 618));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         if (txtC.getPassword().length == 0 || txtUsuario.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Llene todo los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            cardLayout.show(contenedor, "panelA2");
         } else {
             inicioSesion();
         }
@@ -349,17 +458,36 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnIniciar;
+    private javax.swing.JPanel contenedor;
     private javax.swing.ButtonGroup gp1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel panelA;
+    private javax.swing.JPanel panelA1;
+    private javax.swing.JPanel panelA2;
+    private javax.swing.JPanel panelA3;
     private javax.swing.JPasswordField txtC;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
