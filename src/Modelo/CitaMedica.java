@@ -61,6 +61,9 @@ public class CitaMedica {
     public void setTipoCita(String TipoCita) {
         this.TipoCita = TipoCita;
     }
-    
+    @Override
+    public String toString() {
+        return TipoCita;
+    }
     
 }

@@ -15,6 +15,6 @@ public class Principal {
         ventana.setVisible(true);
         ventana.setResizable(true);
         ventana.setLocationRelativeTo(null);
-
+        System.out.println("Principal.Principal.main()");
     }
 }
